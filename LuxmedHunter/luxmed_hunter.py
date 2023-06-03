@@ -2,7 +2,7 @@ import datetime
 import shelve
 from typing import List
 
-from LuxmedHunter.luxmed_client import LuxmedClientInit, validate_response
+from LuxmedHunter.luxmed_client import LuxmedClientInit
 from LuxmedHunter.pushover_client import PushoverClient
 from LuxmedHunter.utils.logger_custom import LoggerCustom
 

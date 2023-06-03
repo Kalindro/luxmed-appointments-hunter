@@ -1,3 +1,6 @@
+import datetime as dt
+import typing as tp
+
 from LuxmedHunter.luxmed_client import LuxmedClientInit, validate_response
 from LuxmedHunter.utils.logger_custom import LoggerCustom
 
@@ -12,16 +15,35 @@ class LuxmedExplorer:
         print("Retrieving cities from the Luxmed API...")
         return self._base_request("/Dictionary/cities")
 
-    def get_clinics_and_doctors(self, city_id: int, service_id: int) -> list:
-        logger.info("Retrieving clinics and doctors from the Luxmed API...")
-        return self._base_request(f"/Dictionary/facilitiesAndDoctors?cityId={city_id}&serviceVariantId={service_id}")
-
     def get_services(self):
         logger.info("Retrieving services from the Luxmed API...")
         return self._base_request("/Dictionary/serviceVariantsGroups")
 
-    def _base_request(self, uri: str) -> list:
-        response = self.session.get(f"{self.config['urls']['luxmed_new_portal_reservation_url']}{uri}")
+    def get_clinics_and_doctors(self, city_id: int, service_id: int) -> list:
+        logger.info("Retrieving clinics and doctors from the Luxmed API...")
+        return self._base_request(f"/Dictionary/facilitiesAndDoctors?cityId={city_id}&serviceVariantId={service_id}")
+
+    def get_terms(self, city_id: int, service_id: int, clinic_id: int = None,
+                  doctor_id: int = None) -> []:
+        print("Getting terms for given search parameters...")
+
+        date_from = dt.date.today().strftime("%Y-%m-%d")
+        date_to = (dt.date.today() + dt.timedelta(days=self.config["config"]["lookup_days"]))
+
+        params = {
+            "cityId": city_id,
+            "serviceVariantId": service_id,
+            "languageId": 11,
+            "searchDateFrom": date_from,
+            "searchDateTo": date_to,
+            "facilitiesIds": clinic_id,
+            "doctorsIds": doctor_id
+        }
+
+        return self._base_request("/terms/index", params=params)
+
+    def _base_request(self, uri: str, params: tp.Optional[dict] = None) -> list:
+        response = self.session.get(f"{self.config['urls']['luxmed_new_portal_reservation_url']}{uri}", params=params)
         validate_response(response)
         return response.json()
 
