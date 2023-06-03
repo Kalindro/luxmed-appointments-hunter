@@ -1,77 +1,17 @@
 import datetime
-import os
-import random
 import shelve
-import uuid
 from typing import List
 
-import requests
-import yaml
-
-from LuxmedHunter.utils.dir_paths import PROJECT_DIR
+from LuxmedHunter.luxmed_client import LuxmedClientInit, validate_response
+from LuxmedHunter.pushover_client import PushoverClient
 from LuxmedHunter.utils.logger_custom import LoggerCustom
 
-logger = LoggerCustom().info_level()
 
-APP_VERSION = "4.19.0"
-CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Android; {str(random.randint(23, 29))}; {str(uuid.uuid4())}"
+class LuxmedHunter:
 
-LUXMED_TOKEN_URL = "https://portalpacjenta.luxmed.pl/PatientPortalMobileAPI/api/token"
-LUXMED_LOGIN_URL = "https://portalpacjenta.luxmed.pl/PatientPortal/Account/LogInToApp"
-NEW_PORTAL_RESERVATION_URL = "https://portalpacjenta.luxmed.pl/PatientPortal/NewPortal/terms/index"
-
-
-class LuxmedInitialization:
-
-    def __init__(self):
-        self.session = None
-        self.config = self._load_config()
-        self._create_session()
-        self._get_access_token()
-        self._login()
-
-    @staticmethod
-    def _load_config():
-        with open(os.path.join(PROJECT_DIR, "config.yaml"), "r") as file:
-            return yaml.safe_load(file)
-
-    def _create_session(self):
-        self.session = requests.Session()
-        self.session.headers.update({'Host': "portalpacjenta.luxmed.pl"})
-        self.session.headers.update({'Origin': "https://portalpacjenta.luxmed.pl"})
-        self.session.headers.update({'Content-Type': "application/x-www-form-urlencoded"})
-        self.session.headers.update({'x-api-client-identifier': 'iPhone'})
-        self.session.headers.update({'Accept': 'application/json, text/plain, */*'})
-        self.session.headers.update({'Custom-User-Agent': CUSTOM_USER_AGENT})
-        self.session.headers.update({'User-Agent': 'okhttp/3.11.0'})
-        self.session.headers.update({'Accept-Language': 'en;q=1.0, en-PL;q=0.9, pl-PL;q=0.8, ru-PL;q=0.7, uk-PL;q=0.6'})
-        self.session.headers.update({'Accept-Encoding': 'gzip;q=1.0, compress;q=0.5'})
-
-    def _get_access_token(self) -> str:
-        authentication_body = {"username": self.config["luxmed"]["email"],
-                               "password": self.config["luxmed"]["password"],
-                               "grant_type": "password", "account_id": str(uuid.uuid4())[:35],
-                               "client_id": str(uuid.uuid4())}
-
-        response = self.session.post(LUXMED_TOKEN_URL, data=authentication_body)
-        content = response.json()
-        self.access_token = content["access_token"]
-        self.refresh_token = content["refresh_token"]
-        self.token_type = content["token_type"]
-        self.session.headers.update({"Authorization": self.access_token})
-
-        return response.json()["access_token"]
-
-    def _login(self):
-        params = {"app": "search", "client": 3, "paymentSupported": "true", "lang": "pl"}
-        response = self.session.get(LUXMED_LOGIN_URL, params=params)
-
-        if response.status_code != 200:
-            raise Exception("Unexpected response code, cannot log in")
-        logger.info("Successfully logged in!")
-
-
-class LuxmedHunter(LuxmedInitialization):
+    def __init__(self, luxmed_client: LuxmedClientInit):
+        self.config = luxmed_client.config
+        self.session = luxmed_client.session
 
     def check(self):
         appointments = self._get_appointments_new_portal()
@@ -123,7 +63,7 @@ class LuxmedHunter(LuxmedInitialization):
         if doctorIds != '-1':
             params['doctorsIds'] = doctorIds.split(',')
 
-        response = self.session.get(NEW_PORTAL_RESERVATION_URL, params=params)
+        response = self.session.get(self.config["urls"]["luxmed_new_portal_reservation_url"], params=params)
         return [*filter(lambda a: datetime.datetime.fromisoformat(a['AppointmentDate']).date() <= date_to,
                         self._parse_visits_new_portal(response))]
 
@@ -147,18 +87,7 @@ class LuxmedHunter(LuxmedInitialization):
         pushover_client.send_message(appointment)
 
 
-class PushoverClient:
-    def __init__(self, api_token, user_key):
-        self.api_token = api_token
-        self.user_key = user_key
-
-    def send_message(self, message):
-        data = {"token": self.api_token, "user": self.user_key, "message": message}
-        r = requests.post("https://api.pushover.net/1/messages.json", data=data)
-        if r.status_code != 200:
-            raise Exception("Pushover error: %s" % r.text)
-
-
 if __name__ == "__main__":
     logger = LoggerCustom().info_only()
-    LuxmedHunter().check()
+    client = LuxmedClientInit()
+    hunter = LuxmedHunter(client).test()
