@@ -16,13 +16,15 @@ logger = LoggerCustom().info_level()
 APP_VERSION = "4.19.0"
 CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Android; {str(random.randint(23, 29))}; {str(uuid.uuid4())}"
 
+LUXMED_TOKEN_URL = "https://portalpacjenta.luxmed.pl/PatientPortalMobileAPI/api/token"
+LUXMED_LOGIN_URL = "https://portalpacjenta.luxmed.pl/PatientPortal/Account/LogInToApp"
+NEW_PORTAL_RESERVATION_URL = "https://portalpacjenta.luxmed.pl/PatientPortal/NewPortal/terms/index"
 
-class LuxmedHunter:
-    LUXMED_TOKEN_URL = "https://portalpacjenta.luxmed.pl/PatientPortalMobileAPI/api/token"
-    LUXMED_LOGIN_URL = "https://portalpacjenta.luxmed.pl/PatientPortal/Account/LogInToApp"
-    NEW_PORTAL_RESERVATION_URL = "https://portalpacjenta.luxmed.pl/PatientPortal/NewPortal/terms/index"
+
+class LuxmedInitialization:
 
     def __init__(self):
+        self.session = None
         self.config = self._load_config()
         self._create_session()
         self._get_access_token()
@@ -46,13 +48,12 @@ class LuxmedHunter:
         self.session.headers.update({'Accept-Encoding': 'gzip;q=1.0, compress;q=0.5'})
 
     def _get_access_token(self) -> str:
-
         authentication_body = {"username": self.config["luxmed"]["email"],
                                "password": self.config["luxmed"]["password"],
                                "grant_type": "password", "account_id": str(uuid.uuid4())[:35],
                                "client_id": str(uuid.uuid4())}
 
-        response = self.session.post(LuxmedHunter.LUXMED_TOKEN_URL, data=authentication_body)
+        response = self.session.post(LUXMED_TOKEN_URL, data=authentication_body)
         content = response.json()
         self.access_token = content["access_token"]
         self.refresh_token = content["refresh_token"]
@@ -63,11 +64,30 @@ class LuxmedHunter:
 
     def _login(self):
         params = {"app": "search", "client": 3, "paymentSupported": "true", "lang": "pl"}
-        response = self.session.get(LuxmedHunter.LUXMED_LOGIN_URL, params=params)
+        response = self.session.get(LUXMED_LOGIN_URL, params=params)
 
         if response.status_code != 200:
             raise Exception("Unexpected response code, cannot log in")
         logger.info("Successfully logged in!")
+
+
+class LuxmedHunter(LuxmedInitialization):
+
+    def check(self):
+        appointments = self._get_appointments_new_portal()
+        if not appointments:
+            logger.info("No appointments found")
+            return
+        for appointment in appointments:
+            logger.info(
+                "Appointment found! {AppointmentDate} at {ClinicPublicName} - {DoctorName}".format(**appointment))
+            if not self._is_already_known(appointment):
+                self._add_to_database(appointment)
+                self._send_notification(appointment)
+                logger.info(
+                    "Notification sent! {AppointmentDate} at {ClinicPublicName} - {DoctorName}".format(**appointment))
+            else:
+                logger.info("Notification was already sent.")
 
     def _parse_visits_new_portal(self, data) -> List[dict]:
         appointments = []
@@ -90,7 +110,7 @@ class LuxmedHunter:
 
     def _get_appointments_new_portal(self):
         try:
-            (cityId, serviceId, clinicIds, doctorIds) = self.config['luxmedsniper']['doctor_locator_id'].strip().split(
+            (cityId, serviceId, clinicIds, doctorIds) = self.config["luxmedsniper"]["doctor_locator_id"].strip().split(
                 '*')
         except ValueError:
             raise Exception('DoctorLocatorID seems to be in invalid format')
@@ -103,25 +123,9 @@ class LuxmedHunter:
         if doctorIds != '-1':
             params['doctorsIds'] = doctorIds.split(',')
 
-        response = self.session.get(LuxmedHunter.NEW_PORTAL_RESERVATION_URL, params=params)
+        response = self.session.get(NEW_PORTAL_RESERVATION_URL, params=params)
         return [*filter(lambda a: datetime.datetime.fromisoformat(a['AppointmentDate']).date() <= date_to,
                         self._parse_visits_new_portal(response))]
-
-    def check(self):
-        appointments = self._get_appointments_new_portal()
-        if not appointments:
-            logger.info("No appointments found.")
-            return
-        for appointment in appointments:
-            logger.info(
-                "Appointment found! {AppointmentDate} at {ClinicPublicName} - {DoctorName}".format(**appointment))
-            if not self._is_already_known(appointment):
-                self._add_to_database(appointment)
-                self._send_notification(appointment)
-                logger.info(
-                    "Notification sent! {AppointmentDate} at {ClinicPublicName} - {DoctorName}".format(**appointment))
-            else:
-                logger.info('Notification was already sent.')
 
     def _add_to_database(self, appointment):
         db = shelve.open(self.config['misc']['notifydb'])
@@ -157,4 +161,4 @@ class PushoverClient:
 
 if __name__ == "__main__":
     logger = LoggerCustom().info_only()
-    LuxmedHunter()
+    LuxmedHunter().check()
