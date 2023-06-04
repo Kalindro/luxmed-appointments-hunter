@@ -5,8 +5,9 @@ My twist of Luxmed appointments notifier, inspiration taken from:
 https://github.com/pawliczka/LuxmedSniper  
 https://github.com/m-grzesiak/yalma
 
-Mainly done to accomplish the same things in more Pythonic & OOP ways, to train my skills.  
-And using dataframes. I love dataframes.  
+Mainly done to accomplish the same things as their projects but to 
+train my skills in more Pythonic & OOP ways.  
+And to use dataframes. I love dataframes.  
 It lacks a lot of useful safeguard functions, for now made mainly for me, not friendly to external users.
 ___
 
