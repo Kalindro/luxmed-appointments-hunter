@@ -10,8 +10,8 @@ And using dataframes. I love dataframes.
 It lacks a lot of useful safeguard functions, for now made mainly for me, not friendly to external users.
 ___
 To use it, create `config.yaml` based on the `config_template.yaml` with your details.  
-You shall use polish letters/alphabet for names, capitalization doesn't matter. `doctor_name` and `clinic_name` are optional,
-to dial in the search.
+You shall use polish letters/alphabet for names, capitalization doesn't matter. `doctor_name` and `clinic_name`
+are optional, to dial in the search (they can be left empty).
 
 ___
 Please be advised that running too many queries against LuxMed API may result in locking your LuxMed account.
