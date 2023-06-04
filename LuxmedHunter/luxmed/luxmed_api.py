@@ -18,7 +18,7 @@ class LuxmedApi:
         self.session = luxmed_client.session
 
     def get_cities_raw(self) -> list:
-        print("Retrieving cities from the Luxmed API...")
+        logger.info("Retrieving cities from the Luxmed API...")
         return self._base_request("/Dictionary/cities")
 
     def get_services_raw(self) -> list:
