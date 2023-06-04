@@ -70,4 +70,4 @@ class LuxmedClientInit:
 if __name__ == "__main__":
     client = LuxmedClientInit()
     request = client.functions.get_available_terms_translated(city_name="Warszawa", lookup_days=14,
-                                                              service_name="Stomatolog")
+                                                              service_name="Stomatolog", doctor_name="MARTYNA GADOMSKA")

@@ -16,5 +16,5 @@ def validate_response(response: requests.Response):
 
 
 def date_string_to_datetime(date_string: str) -> dt.datetime:
-    date_datetime = pd.to_datetime(date_string, dayfirst=True)
+    date_datetime = pd.to_datetime(date_string, dayfirst=False)
     return date_datetime

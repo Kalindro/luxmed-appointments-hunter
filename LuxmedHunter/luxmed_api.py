@@ -32,7 +32,6 @@ class LuxmedApi:
     def get_terms_raw(self, city_id: int, service_id: int, lookup_days: int, doctor_id: int = None,
                       clinic_id: int = None) -> list:
         print("Getting terms for given search parameters...")
-
         date_from = dt.date.today().strftime("%Y-%m-%d")
         date_to = (dt.date.today() + dt.timedelta(days=lookup_days))
 
