@@ -8,7 +8,7 @@ from LuxmedHunter.utils.logger_custom import default_logger as logger
 from LuxmedHunter.utils.utility import validate_response
 
 if TYPE_CHECKING:
-    from LuxmedHunter.client.luxmed_client import LuxmedClient
+    from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
 
 
 class LuxmedApi:
