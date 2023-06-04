@@ -55,9 +55,8 @@ class LuxmedFunctions:
         return doctors_df.reindex(
             columns=["name", "id", "academicTitle", "facilityGroupIds", "isEnglishSpeaker", "firstName", "lastName", ])
 
-    def get_available_terms(self, city_id: int, service_id: int, lookup_days: int, doctor_id: int = None,
-                            clinic_id: int = None):
-        result = self.luxmed_api.get_terms_raw(city_id, service_id, lookup_days, doctor_id, clinic_id)
+    def get_available_terms(self, city_id: int, service_id: int, lookup_days: int):
+        result = self.luxmed_api.get_terms_raw(city_id, service_id, lookup_days)
         available_days = result["termsForService"]["termsForDays"]
         if not available_days:
             logger.success("No available terms in the desired date range")
@@ -68,7 +67,7 @@ class LuxmedFunctions:
             mlem = {
                 "day": date_string_to_datetime(term["dateTimeFrom"]).date(),
                 "doctor_name": f"{term['doctor']['firstName']} {term['doctor']['lastName']}",
-                "doctor_id": term["doctor"]["id"],
+                "doctorId": term["doctor"]["id"],
                 "clinicId": term["clinicId"],
                 "serviceId": term["serviceId"],
                 "dateTimeFrom": date_string_to_datetime(term["dateTimeFrom"])
@@ -88,23 +87,22 @@ class LuxmedFunctions:
                 db["services_df"] = self.get_services()
                 time.sleep(2)
                 db["last_update_date"] = dt.date.today()
-
             cities_df = db["cities_df"]
             services_df = db["services_df"]
+
         city_id = cities_df.loc[cities_df["name"].str.upper() == city_name.upper(), "id"].values[0]
         service_id = services_df.loc[services_df["name"].str.upper() == service_name.upper(), "id"].values[0]
+        terms = self.get_available_terms(city_id, service_id, lookup_days)
 
         if doctor_name:
             doctors_df = self.get_doctors(city_id, service_id)
             doctor_id = doctors_df.loc[doctors_df["name"].str.upper() == doctor_name.upper(), "id"].values[0]
-        else:
-            doctor_id = None
+            terms = terms.loc[(terms["doctorId"] == doctor_id)]
 
         if clinic_name:
             clinics_df = self.get_clinics(city_id, service_id)
-            clinic_id = clinics_df.loc[clinic_name, "id"]
-        else:
-            clinic_id = None
-        terms = self.get_available_terms(city_id, service_id, lookup_days, doctor_id=doctor_id, clinic_id=clinic_id)
-        print(terms)
+            clinic_id = clinics_df.loc[clinics_df["name"].str.upper() == clinic_name.upper(), "id"].values[0]
+            terms = terms.loc[(terms["clinicId"] == clinic_id)]
+
+        return terms
 
