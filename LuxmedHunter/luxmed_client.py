@@ -69,5 +69,4 @@ class LuxmedClientInit:
 
 if __name__ == "__main__":
     client = LuxmedClientInit()
-    request = client.api.get_clinics_and_doctors_raw(city_id=35, service_id=6621)
-    print(request)
+    request = client.functions.get_available_terms(city_id=1, service_id=6621, lookup_days=14)

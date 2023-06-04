@@ -29,11 +29,12 @@ class LuxmedApi:
         logger.info("Retrieving clinics and doctors from the Luxmed API...")
         return self._base_request(f"/Dictionary/facilitiesAndDoctors?cityId={city_id}&serviceVariantId={service_id}")
 
-    def get_terms_raw(self, city_id: int, service_id: int, clinic_id: int = None, doctor_id: int = None) -> list:
+    def get_terms_raw(self, city_id: int, service_id: int, lookup_days: int, clinic_id: int = None,
+                      doctor_id: int = None) -> dict:
         print("Getting terms for given search parameters...")
 
         date_from = dt.date.today().strftime("%Y-%m-%d")
-        date_to = (dt.date.today() + dt.timedelta(days=self.config["config"]["lookup_days"]))
+        date_to = (dt.date.today() + dt.timedelta(days=lookup_days))
 
         params = {"cityId": city_id, "serviceVariantId": service_id, "languageId": 11, "searchDateFrom": date_from,
                   "searchDateTo": date_to, "facilitiesIds": clinic_id, "doctorsIds": doctor_id}
