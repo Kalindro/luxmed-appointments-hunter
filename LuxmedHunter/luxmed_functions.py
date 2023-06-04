@@ -58,10 +58,8 @@ class LuxmedFunctions:
     def get_available_terms(self, city_id: int, service_id: int, lookup_days: int):
         result = self.luxmed_api.get_terms_raw(city_id, service_id, lookup_days)
         available_days = result["termsForService"]["termsForDays"]
-        if not available_days:
-            logger.success("No available terms in the desired date range")
-
         terms_list = [terms for day in available_days for terms in day["terms"]]
+
         ultimate_terms_list = []
         for term in terms_list:
             mlem = {
@@ -94,15 +92,21 @@ class LuxmedFunctions:
         service_id = services_df.loc[services_df["name"].str.upper() == service_name.upper(), "id"].values[0]
         terms = self.get_available_terms(city_id, service_id, lookup_days)
 
-        if doctor_name:
+        if doctor_name and not terms.empty:
             doctors_df = self.get_doctors(city_id, service_id)
             doctor_id = doctors_df.loc[doctors_df["name"].str.upper() == doctor_name.upper(), "id"].values[0]
             terms = terms.loc[(terms["doctorId"] == doctor_id)]
 
-        if clinic_name:
+        if clinic_name and not terms.empty:
             clinics_df = self.get_clinics(city_id, service_id)
             clinic_id = clinics_df.loc[clinics_df["name"].str.upper() == clinic_name.upper(), "id"].values[0]
             terms = terms.loc[(terms["clinicId"] == clinic_id)]
+
+        if terms.empty:
+            logger.success("Bad luck, no terms available for the desired settings")
+        else:
+            logger.success("Success, found below terms:")
+            print(terms)
 
         return terms
 

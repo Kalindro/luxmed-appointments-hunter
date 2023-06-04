@@ -11,7 +11,7 @@ from LuxmedHunter.utils.dir_paths import PROJECT_DIR
 from LuxmedHunter.utils.logger_custom import LoggerCustom
 from LuxmedHunter.utils.utility import validate_response
 
-logger = LoggerCustom().info_only()
+logger = LoggerCustom().info_level()
 
 APP_VERSION = "4.19.0"
 CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Android; {str(random.randint(23, 29))}; {str(uuid.uuid4())}"
@@ -69,5 +69,5 @@ class LuxmedClientInit:
 
 if __name__ == "__main__":
     client = LuxmedClientInit()
-    request = client.functions.get_available_terms_translated(city_name="Warszawa", lookup_days=14,
-                                                              service_name="Stomatolog", doctor_name="MARTYNA GADOMSKA")
+    request = client.functions.get_available_terms_translated(city_name="Trójmiasto", lookup_days=14,
+                                                              service_name="Stomatolog", doctor_name="URSZULA JACEK")

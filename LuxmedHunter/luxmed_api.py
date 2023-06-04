@@ -30,7 +30,7 @@ class LuxmedApi:
         return self._base_request(f"/Dictionary/facilitiesAndDoctors?cityId={city_id}&serviceVariantId={service_id}")
 
     def get_terms_raw(self, city_id: int, service_id: int, lookup_days: int) -> list:
-        print("Getting terms for given search parameters...")
+        logger.info("Getting terms for city and service from the Luxmed API...")
         date_from = dt.date.today().strftime("%Y-%m-%d")
         date_to = (dt.date.today() + dt.timedelta(days=lookup_days))
 
