@@ -2,14 +2,14 @@ import datetime
 import shelve
 from typing import List
 
-from LuxmedHunter.luxmed_client import LuxmedClientInit
+from LuxmedHunter.luxmed_client import LuxmedClient
 from LuxmedHunter.pushover_client import PushoverClient
 from LuxmedHunter.utils.logger_custom import LoggerCustom
 
 
 class LuxmedHunter:
 
-    def __init__(self, luxmed_client: LuxmedClientInit):
+    def __init__(self, luxmed_client: LuxmedClient):
         self.config = luxmed_client.config
         self.session = luxmed_client.session
 

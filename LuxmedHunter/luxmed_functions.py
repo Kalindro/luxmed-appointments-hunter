@@ -13,12 +13,12 @@ from LuxmedHunter.utils.utility import date_string_to_datetime
 from utils.dir_paths import PROJECT_DIR
 
 if TYPE_CHECKING:
-    from LuxmedHunter.luxmed_client import LuxmedClientInit
+    from LuxmedHunter.luxmed_client import LuxmedClient
 
 
 class LuxmedFunctions:
 
-    def __init__(self, luxmed_client: LuxmedClientInit):
+    def __init__(self, luxmed_client: LuxmedClient):
         self.luxmed_api = luxmed_client.api
 
     def get_cities(self):
@@ -87,7 +87,6 @@ class LuxmedFunctions:
                 db["last_update_date"] = dt.date.today()
             cities_df = db["cities_df"]
             services_df = db["services_df"]
-
         city_id = cities_df.loc[cities_df["name"].str.upper() == city_name.upper(), "id"].values[0]
         service_id = services_df.loc[services_df["name"].str.upper() == service_name.upper(), "id"].values[0]
         terms = self.get_available_terms(city_id, service_id, lookup_days)
@@ -102,11 +101,4 @@ class LuxmedFunctions:
             clinic_id = clinics_df.loc[clinics_df["name"].str.upper() == clinic_name.upper(), "id"].values[0]
             terms = terms.loc[(terms["clinicId"] == clinic_id)]
 
-        if terms.empty:
-            logger.success("Bad luck, no terms available for the desired settings")
-        else:
-            logger.success("Success, found below terms:")
-            print(terms)
-
         return terms
-

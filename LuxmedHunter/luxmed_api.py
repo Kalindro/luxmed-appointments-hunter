@@ -8,12 +8,12 @@ from LuxmedHunter.utils.logger_custom import default_logger as logger
 from LuxmedHunter.utils.utility import validate_response
 
 if TYPE_CHECKING:
-    from LuxmedHunter.luxmed_client import LuxmedClientInit
+    from LuxmedHunter.luxmed_client import LuxmedClient
 
 
 class LuxmedApi:
 
-    def __init__(self, luxmed_client: LuxmedClientInit):
+    def __init__(self, luxmed_client: LuxmedClient):
         self.config = luxmed_client.config
         self.session = luxmed_client.session
 

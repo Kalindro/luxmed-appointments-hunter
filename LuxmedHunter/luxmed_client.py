@@ -17,7 +17,7 @@ APP_VERSION = "4.19.0"
 CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Android; {str(random.randint(23, 29))}; {str(uuid.uuid4())}"
 
 
-class LuxmedClientInit:
+class LuxmedClient:
 
     def __init__(self):
         self.config = self._load_config()
@@ -29,7 +29,7 @@ class LuxmedClientInit:
 
     @staticmethod
     def _load_config():
-        with open(os.path.join(PROJECT_DIR, "config.yaml"), "r") as file:
+        with open(os.path.join(PROJECT_DIR, "config.yaml"), "r", encoding="utf8") as file:
             return yaml.safe_load(file)
 
     def _login(self):
@@ -65,9 +65,3 @@ class LuxmedClientInit:
         }
         session.headers.update(headers)
         return session
-
-
-if __name__ == "__main__":
-    client = LuxmedClientInit()
-    request = client.functions.get_available_terms_translated(city_name="Trójmiasto", lookup_days=14,
-                                                              service_name="Stomatolog", doctor_name="URSZULA JACEK")
