@@ -1,4 +1,5 @@
 import os
+import random
 import shelve
 import time
 
@@ -15,6 +16,10 @@ class LuxmedRunner:
         self.luxmed_client = LuxmedClient()
         self.config = self.luxmed_client.config
         self.db_path = os.path.join(PROJECT_DIR, "LuxmedHunter", "db", "sent_notifs.db")
+
+    def work(self):
+        delay = self.config["delay"] + random.randint(1, 30)
+        schedule.every(delay).seconds.do(self.check)
 
     def check(self):
         logger.info("Checking new terms for desired settings")
@@ -67,9 +72,8 @@ class LuxmedRunner:
 if __name__ == "__main__":
     logger.info("LuxmedHunter started...")
     client = LuxmedRunner()
-    client.check()
-    config = client.config
-    schedule.every(config["delay"]).seconds.do(client.check)
+    initial_check = client.check()
+    set_schedule = client.work()
     while True:
         schedule.run_pending()
         time.sleep(5)
