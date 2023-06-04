@@ -8,12 +8,11 @@ from typing import TYPE_CHECKING
 
 from pandas import DataFrame as df
 
-from LuxmedHunter.utils.logger_custom import default_logger as logger
 from LuxmedHunter.utils.utility import date_string_to_datetime
 from utils.dir_paths import PROJECT_DIR
 
 if TYPE_CHECKING:
-    from LuxmedHunter.luxmed_client import LuxmedClient
+    from LuxmedHunter.client.luxmed_client import LuxmedClient
 
 
 class LuxmedFunctions:
@@ -76,7 +75,7 @@ class LuxmedFunctions:
 
     def get_available_terms_translated(self, city_name: str, service_name: str, lookup_days: int,
                                        doctor_name: str = None, clinic_name: str = None):
-        db_path = os.path.join(PROJECT_DIR, "LuxmedHunter", "db", "saved_data.db")
+        db_path = os.path.join(PROJECT_DIR, "LuxmedHunter", "../db", "saved_data.db")
         with shelve.open(db_path) as db:
             db_last_update_date = db.get("last_update_date")
             if db_last_update_date is None or dt.date.today() > db_last_update_date:

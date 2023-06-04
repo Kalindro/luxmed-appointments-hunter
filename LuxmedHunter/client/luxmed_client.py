@@ -5,8 +5,8 @@ import uuid
 import requests
 import yaml
 
-from LuxmedHunter.luxmed_api import LuxmedApi
-from LuxmedHunter.luxmed_functions import LuxmedFunctions
+from LuxmedHunter.client.luxmed_api import LuxmedApi
+from LuxmedHunter.client.luxmed_functions import LuxmedFunctions
 from LuxmedHunter.utils.dir_paths import PROJECT_DIR
 from LuxmedHunter.utils.logger_custom import LoggerCustom
 from LuxmedHunter.utils.utility import validate_response

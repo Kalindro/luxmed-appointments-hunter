@@ -1,8 +1,8 @@
 import os
 import shelve
 
-from LuxmedHunter.luxmed_client import LuxmedClient
-from LuxmedHunter.pushover_client import PushoverClient
+from LuxmedHunter.client.luxmed_client import LuxmedClient
+from LuxmedHunter.client.pushover_client import PushoverClient
 from LuxmedHunter.utils.logger_custom import default_logger as logger
 from utils.dir_paths import PROJECT_DIR
 
