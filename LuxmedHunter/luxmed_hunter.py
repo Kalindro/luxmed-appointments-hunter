@@ -85,9 +85,3 @@ class LuxmedHunter:
     def _send_notification(self, appointment):
         pushover_client = PushoverClient(self.config["pushover"]["api_token"], self.config["pushover"]["user_key"])
         pushover_client.send_message(appointment)
-
-
-if __name__ == "__main__":
-    logger = LoggerCustom().info_only()
-    client = LuxmedClientInit()
-    hunter = LuxmedHunter(client).test()

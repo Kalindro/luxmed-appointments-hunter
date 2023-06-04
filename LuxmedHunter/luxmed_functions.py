@@ -1,11 +1,17 @@
+from __future__ import annotations
+
 import datetime as dt
 import typing as tp
+from typing import TYPE_CHECKING
 
-from LuxmedHunter.luxmed_client import LuxmedClientInit, validate_response
-from LuxmedHunter.utils.logger_custom import LoggerCustom
+from LuxmedHunter.utils.logger_custom import default_logger as logger
+from LuxmedHunter.utils.utility import validate_response
+
+if TYPE_CHECKING:
+    from LuxmedHunter.luxmed_client import LuxmedClientInit
 
 
-class LuxmedExplorer:
+class LuxmedFunctions:
 
     def __init__(self, luxmed_client: LuxmedClientInit):
         self.config = luxmed_client.config
@@ -23,22 +29,14 @@ class LuxmedExplorer:
         logger.info("Retrieving clinics and doctors from the Luxmed API...")
         return self._base_request(f"/Dictionary/facilitiesAndDoctors?cityId={city_id}&serviceVariantId={service_id}")
 
-    def get_terms(self, city_id: int, service_id: int, clinic_id: int = None,
-                  doctor_id: int = None) -> []:
+    def get_terms(self, city_id: int, service_id: int, clinic_id: int = None, doctor_id: int = None) -> []:
         print("Getting terms for given search parameters...")
 
         date_from = dt.date.today().strftime("%Y-%m-%d")
         date_to = (dt.date.today() + dt.timedelta(days=self.config["config"]["lookup_days"]))
 
-        params = {
-            "cityId": city_id,
-            "serviceVariantId": service_id,
-            "languageId": 11,
-            "searchDateFrom": date_from,
-            "searchDateTo": date_to,
-            "facilitiesIds": clinic_id,
-            "doctorsIds": doctor_id
-        }
+        params = {"cityId": city_id, "serviceVariantId": service_id, "languageId": 11, "searchDateFrom": date_from,
+                  "searchDateTo": date_to, "facilitiesIds": clinic_id, "doctorsIds": doctor_id}
 
         return self._base_request("/terms/index", params=params)
 
@@ -46,10 +44,3 @@ class LuxmedExplorer:
         response = self.session.get(f"{self.config['urls']['luxmed_new_portal_reservation_url']}{uri}", params=params)
         validate_response(response)
         return response.json()
-
-
-if __name__ == "__main__":
-    logger = LoggerCustom().info_only()
-    client = LuxmedClientInit()
-    explorer = LuxmedExplorer(client).get_cities()
-    print(explorer)
