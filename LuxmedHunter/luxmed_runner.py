@@ -1,8 +1,11 @@
 import os
 import shelve
+import time
 
-from LuxmedHunter.client.luxmed_client import LuxmedClient
-from LuxmedHunter.client.pushover_client import PushoverClient
+import schedule
+
+from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
+from LuxmedHunter.luxmed.pushover_client import PushoverClient
 from LuxmedHunter.utils.logger_custom import default_logger as logger
 from utils.dir_paths import PROJECT_DIR
 
@@ -12,6 +15,9 @@ class LuxmedRunner:
         self.luxmed_client = LuxmedClient()
         self.config = self.luxmed_client.config
         self.db_path = os.path.join(PROJECT_DIR, "LuxmedHunter", "db", "sent_notifs.db")
+
+    def work(self):
+        schedule.every(self.config["delay"].seconds.do(self.check))
 
     def check(self):
         terms = self.luxmed_client.functions.get_available_terms_translated(self.config["config"]["city_name"],
@@ -57,4 +63,7 @@ class LuxmedRunner:
 
 
 if __name__ == "__main__":
-    LuxmedRunner().check()
+    logger.info("LuxmedHunter started...")
+    while True:
+        schedule.run_pending()
+        time.sleep(5)
