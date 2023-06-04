@@ -69,4 +69,5 @@ class LuxmedClientInit:
 
 if __name__ == "__main__":
     client = LuxmedClientInit()
-    request = client.functions.get_available_terms(city_id=1, service_id=6621, lookup_days=14)
+    request = client.functions.get_available_terms_translated(city_name="Warszawa", lookup_days=14,
+                                                              service_name="Stomatolog")
