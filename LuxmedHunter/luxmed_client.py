@@ -5,6 +5,7 @@ import uuid
 import requests
 import yaml
 
+from LuxmedHunter.luxmed_api import LuxmedApi
 from LuxmedHunter.luxmed_functions import LuxmedFunctions
 from LuxmedHunter.utils.dir_paths import PROJECT_DIR
 from LuxmedHunter.utils.logger_custom import LoggerCustom
@@ -23,6 +24,7 @@ class LuxmedClientInit:
         self.session = self._create_session()
         self._get_access_token()
         self._login()
+        self.api = LuxmedApi(self)
         self.functions = LuxmedFunctions(self)
 
     @staticmethod
@@ -67,7 +69,5 @@ class LuxmedClientInit:
 
 if __name__ == "__main__":
     client = LuxmedClientInit()
-    cities = client.functions.get_cities()
-    services = client.functions.get_services()
-    print(cities)
-    print(services)
+    request = client.api.get_clinics_and_doctors_raw(city_id=35, service_id=6621)
+    print(request)
