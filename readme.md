@@ -1,11 +1,11 @@
 ## LuxmedHunter
 Simple tool to notify about available slot in LUX MED medical care service using pushover notifications.
 ___
-My twist of Luxmed appointments notifier, inspiration taken from:
+My twist of Luxmed appointments notifier, inspiration taken from:  
 https://github.com/pawliczka/LuxmedSniper  
 https://github.com/m-grzesiak/yalma
 
-Mainly done to accomplish the same things in more Pythonic & OOP ways, to hone my skills.  
+Mainly done to accomplish the same things in more Pythonic & OOP ways, to train my skills.  
 And using dataframes. I love dataframes.  
 It lacks a lot of useful safeguard functions, for now made mainly for me, not friendly to external users.
 ___
