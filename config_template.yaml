@@ -1,0 +1,23 @@
+delay: 60
+
+urls:
+  luxmed_base_url: "https://portalpacjenta.luxmed.pl"
+  luxmed_token_url: "https://portalpacjenta.luxmed.pl/PatientPortalMobileAPI/api/token"
+  luxmed_login_url: "https://portalpacjenta.luxmed.pl/PatientPortal/Account/LogInToApp"
+  luxmed_new_portal_reservation_url: "https://portalpacjenta.luxmed.pl/PatientPortal/NewPortal"
+
+luxmed:
+  email: "kamil.kurowski05@gmail.com"
+  password: "w27V6waSZNBod66"
+
+pushover:
+  api_token: "apbr78fqxk1k8h94a8s5ms23udkfnf"
+  user_key: "uxt1shkbxemo4iobmzj5jiw5je519t"
+
+config:
+  city_name: "Trójmiasto"
+  service_name: "Stomatolog"
+  lookup_days: 14
+  doctor_name: "Urszula Jacek"
+  clinic_name:
+
