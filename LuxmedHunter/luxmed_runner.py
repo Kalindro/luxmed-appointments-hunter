@@ -32,8 +32,8 @@ class LuxmedRunner:
             logger.success("Bad luck, no terms available for the desired settings")
             return
         else:
-            logger.success("Success, found below terms:")
-            print(terms.to_string())
+            logger.success(f"Success, found below terms:"
+                           f" {terms.to_string()}")
             self.notifications_handle(terms)
 
     def notifications_handle(self, terms):
@@ -64,9 +64,9 @@ class LuxmedRunner:
             db["old_terms"] = terms
 
     def _send_notification(self, terms):
-        pushover_client = PushoverClient(self.config["pushover"]["api_token"], self.config["pushover"]["user_key"])
+        pushover_client = PushoverClient(self.config["pushover"]["api_token"], self.config["pushover"]["user_key"] )
         message = "Found new appointment for your desired search!"
-        pushover_client.send_message(message)
+        pushover_client.send_message(message=message, priority=1)
 
 
 if __name__ == "__main__":

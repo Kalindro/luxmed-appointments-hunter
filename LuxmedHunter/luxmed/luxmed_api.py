@@ -34,8 +34,12 @@ class LuxmedApi:
         date_from = dt.date.today().strftime("%Y-%m-%d")
         date_to = (dt.date.today() + dt.timedelta(days=lookup_days))
 
-        params = {"cityId": city_id, "serviceVariantId": service_id, "languageId": 11, "searchDateFrom": date_from,
-                  "searchDateTo": date_to}
+        params = {
+            "cityId": city_id,
+            "serviceVariantId": service_id,
+            "searchDateFrom": date_from,
+            "searchDateTo": date_to
+        }
 
         return self._base_request("/terms/index", params=params)
 
