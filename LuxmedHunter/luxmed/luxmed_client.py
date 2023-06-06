@@ -66,7 +66,6 @@ class LuxmedClient:
         session.headers.update(headers)
         return session
 
-
 # if __name__ == "__main__":
 #     client = LuxmedClient()
 #     print(LuxmedClient().api.get_terms_raw(city_id=45, service_id=6621, lookup_days=14))

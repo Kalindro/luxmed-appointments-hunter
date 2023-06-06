@@ -130,3 +130,5 @@ cython_debug/
 config.yaml
 LuxmedHunter/db/*
 !LuxmedHunter/db/.gitkeep
+LuxmedHunter/cities.txt
+LuxmedHunter/services.txt

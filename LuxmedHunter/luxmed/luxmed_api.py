@@ -40,10 +40,9 @@ class LuxmedApi:
             "searchDateFrom": date_from,
             "searchDateTo": date_to
         }
+        return self._base_request("/terms/index", params)
 
-        return self._base_request("/terms/index", params=params)
-
-    def _base_request(self, uri: str, params: tp.Optional[dict] = None) -> list:
-        response = self.session.get(f"{self.config['urls']['luxmed_new_portal_reservation_url']}{uri}", params=params)
+    def _base_request(self, url: str, params: tp.Optional[dict] = None) -> list:
+        response = self.session.get(f"{self.config['urls']['luxmed_new_portal_reservation_url']}{url}", params=params)
         validate_response(response)
         return response.json()

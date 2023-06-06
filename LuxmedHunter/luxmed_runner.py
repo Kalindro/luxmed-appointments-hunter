@@ -12,10 +12,11 @@ from utils.dir_paths import PROJECT_DIR
 
 
 class LuxmedRunner:
+
     def __init__(self):
         self.luxmed_client = LuxmedClient()
         self.config = self.luxmed_client.config
-        self.db_path = os.path.join(PROJECT_DIR, "LuxmedHunter", "db", "sent_notifs.db")
+        self.notifs_db_path = os.path.join(PROJECT_DIR, "LuxmedHunter", "db", "sent_notifs.db")
 
     def work(self):
         delay = self.config["delay"] + random.randint(1, 30)
@@ -34,9 +35,9 @@ class LuxmedRunner:
         else:
             logger.success(f"Success, found below terms:"
                            f" {terms.to_string()}")
-            self.notifications_handle(terms)
+            self._notifications_handle(terms)
 
-    def notifications_handle(self, terms):
+    def _notifications_handle(self, terms):
         if not self._is_already_known(terms):
             self._add_to_database(terms)
             self._send_notification(terms)
@@ -45,7 +46,7 @@ class LuxmedRunner:
             logger.success("Notification was already sent")
 
     def _is_already_known(self, new_terms):
-        with shelve.open(self.db_path) as db:
+        with shelve.open(self.notifs_db_path) as db:
             old_terms = db.get("old_terms")
 
         if old_terms is None:
@@ -60,11 +61,11 @@ class LuxmedRunner:
             return False
 
     def _add_to_database(self, terms):
-        with shelve.open(self.db_path) as db:
+        with shelve.open(self.notifs_db_path) as db:
             db["old_terms"] = terms
 
     def _send_notification(self, terms):
-        pushover_client = PushoverClient(self.config["pushover"]["api_token"], self.config["pushover"]["user_key"] )
+        pushover_client = PushoverClient(self.config["pushover"]["api_token"], self.config["pushover"]["user_key"])
         message = "Found new appointment for your desired search!"
         pushover_client.send_message(message=message, priority=1)
 
