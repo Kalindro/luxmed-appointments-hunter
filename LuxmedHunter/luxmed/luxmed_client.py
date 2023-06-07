@@ -18,6 +18,7 @@ CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Androi
 
 
 class LuxmedClient:
+    """Main client to initialize the session with Portal with all the useful requests calls injected"""
 
     def __init__(self):
         self.config = self._load_config()
@@ -65,7 +66,3 @@ class LuxmedClient:
         }
         session.headers.update(headers)
         return session
-
-# if __name__ == "__main__":
-#     client = LuxmedClient()
-#     print(LuxmedClient().api.get_terms_raw(city_id=45, service_id=6621, lookup_days=14))

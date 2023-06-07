@@ -17,6 +17,7 @@ if TYPE_CHECKING:
 
 
 class LuxmedFunctions:
+    """Contains requests with modified returns, mainly in dataframes for easier manipulation and representation"""
 
     def __init__(self, luxmed_client: LuxmedClient):
         self.luxmed_api = luxmed_client.api
@@ -108,5 +109,3 @@ class LuxmedFunctions:
             services_df = db["services_df"]
 
         return cities_df, services_df
-
-
