@@ -8,9 +8,12 @@ import schedule
 from pandas import DataFrame as df
 
 from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
+from LuxmedHunter.utils.logger_custom import LoggerCustom
 from LuxmedHunter.utils.logger_custom import default_logger as logger
 from LuxmedHunter.utils.pushover_client import PushoverClient
 from utils.dir_paths import PROJECT_DIR
+
+LoggerCustom().info_level()
 
 
 class LuxmedRunner:
@@ -81,6 +84,14 @@ if __name__ == "__main__":
     client = LuxmedRunner()
     initial_check = client.check()
     set_schedule = client.work()
-    while True:
-        schedule.run_pending()
-        time.sleep(5)
+
+    tries = 0
+    while tries < 3:
+        try:
+            schedule.run_pending()
+            time.sleep(5)
+        except Exception as err:
+            logger.warning(f"Ups, an error occurred: {err}")
+            tries += 1
+            time.sleep(180)
+    logger.error("There is an constant error, hopefully you weren't banned, goodnight and good luck")

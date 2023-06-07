@@ -8,10 +8,8 @@ import yaml
 from LuxmedHunter.luxmed.luxmed_api import LuxmedApi
 from LuxmedHunter.luxmed.luxmed_functions import LuxmedFunctions
 from LuxmedHunter.utils.dir_paths import PROJECT_DIR
-from LuxmedHunter.utils.logger_custom import LoggerCustom
+from LuxmedHunter.utils.logger_custom import default_logger as logger
 from LuxmedHunter.utils.utility import validate_response
-
-logger = LoggerCustom().info_level()
 
 APP_VERSION = "4.19.0"
 CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Android; {str(random.randint(23, 29))}; {str(uuid.uuid4())}"
