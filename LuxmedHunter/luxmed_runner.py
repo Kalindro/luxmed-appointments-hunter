@@ -94,4 +94,6 @@ if __name__ == "__main__":
             logger.warning(f"Ups, an error occurred: {err}")
             tries += 1
             time.sleep(180)
+            logger.info(f"Reconnect number: {tries}")
+            client.luxmed_client.initialize()
     logger.error("There is an constant error, hopefully you weren't banned, goodnight and good luck")

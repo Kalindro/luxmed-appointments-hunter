@@ -20,9 +20,8 @@ class LuxmedClient:
 
     def __init__(self):
         self.config = self._load_config()
-        self.session = self._create_session()
-        self._get_access_token()
-        self._login()
+        self.session = None
+        self.initialize()
         self.api = LuxmedApi(self)
         self.functions = LuxmedFunctions(self)
 
@@ -30,6 +29,11 @@ class LuxmedClient:
     def _load_config():
         with open(os.path.join(PROJECT_DIR, "config.yaml"), "r", encoding="utf8") as file:
             return yaml.safe_load(file)
+
+    def initialize(self):
+        self.session = self._create_session()
+        self._get_access_token()
+        self._login()
 
     def _login(self):
         params = {

@@ -11,7 +11,7 @@ ___
 
 To use it, create `config.yaml` based on the `config_template.yaml` with your details and run the `luxmed_runner`.  
 You shall use polish letters/alphabet for names, capitalization doesn't matter. The name of service, city, doctor should be a string, as visible in the phone app. To help, the bot saves
-list of cities and services to text files on the first run. `doctor_name` and `clinic_name`are optional - to
+list of cities and services to text files on the first run. `doctor_name` and `clinic_name` are optional - to
 dial in the search (they can be left empty).
 ___
 
