@@ -5,7 +5,7 @@ import typing as tp
 from typing import TYPE_CHECKING
 
 from LuxmedHunter.utils.logger_custom import default_logger as logger
-from LuxmedHunter.utils.utility import handle_response
+from LuxmedHunter.utils.utility import validate_json_response
 
 if TYPE_CHECKING:
     from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
@@ -45,5 +45,5 @@ class LuxmedApi:
 
     def _base_request(self, url: str, params: tp.Optional[dict] = None) -> list:
         response = self.session.get(f"{self.config['urls']['luxmed_new_portal_reservation_url']}{url}", params=params)
-        response = handle_response(response)
-        return response
+        validate_json_response(response)
+        return response.json()
