@@ -43,7 +43,10 @@ class LuxmedClient:
             "lang": "pl"
         }
         response = self.session.get(self.config["urls"]["luxmed_login_url"], params=params)
-        response = handle_response(response)
+
+        if response.status_code != 200:
+            raise Exception("Unexpected response code, cannot log in")
+
         logger.info("Successfully logged in!")
 
     def _get_access_token(self):
