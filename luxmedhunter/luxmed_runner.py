@@ -1,7 +1,6 @@
 import os
 import random
 import shelve
-import random
 import time
 
 import pandas as pd
@@ -88,6 +87,7 @@ if __name__ == "__main__":
         try:
             schedule.run_pending()
             time.sleep(5)
+            tries = 0
         except Exception as err:
             logger.exception(f"Ups, an error occurred, will wait and try to reconnect:\n{err}")
             time.sleep(180)
