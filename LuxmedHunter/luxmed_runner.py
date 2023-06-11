@@ -11,7 +11,7 @@ from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
 from LuxmedHunter.utils.logger_custom import LoggerCustom
 from LuxmedHunter.utils.logger_custom import default_logger as logger
 from LuxmedHunter.utils.pushover_client import PushoverClient
-from utils.dir_paths import PROJECT_DIR
+from LuxmedHunter.utils.dir_paths import PROJECT_DIR
 
 LoggerCustom().info_level()
 
