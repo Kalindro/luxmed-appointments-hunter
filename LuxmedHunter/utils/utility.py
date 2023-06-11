@@ -15,9 +15,9 @@ def handle_response(response: requests.Response):
     try:
         return response.json()
     except Exception as err:
-        logger.error(response.status_code)
-        logger.error(response.text)
-        logger.error(response)
+        logger.error(f"Status code: {response.status_code}")
+        logger.error(f"Response text: {response.text}")
+        logger.error(f"Response: {response}")
         logger.exception(f"Error on json encoding: {err}")
 
 
