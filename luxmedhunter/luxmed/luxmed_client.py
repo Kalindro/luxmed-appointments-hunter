@@ -62,11 +62,27 @@ class LuxmedClient:
         session = requests.Session()
         headers = {
             'Origin': self.config["urls"]["luxmed_base_url"],
-            'Content-Type': 'application/x-www-form-urlencoded', 'x-api-client-identifier': 'Android',
-            'Accept': 'application/json, text/plain, */*', 'Custom-User-Agent': CUSTOM_USER_AGENT,
+            'Content-Type': 'application/json',
+            'x-api-client-identifier': 'iPhone',
+            'Accept': 'application/json',
+            'Custom-User-Agent': CUSTOM_USER_AGENT,
             'User-Agent': 'okhttp/3.11.0',
             'Accept-Language': 'en;q=1.0, en-PL;q=0.9, pl-PL;q=0.8, ru-PL;q=0.7, uk-PL;q=0.6',
-            'Accept-Encoding': 'gzip;q=1.0, compress;q=0.5'
+            'Accept-Encoding': 'gzip;q=1.0, compress;q=0.5',
+            'Cache-Control': 'no-cache',
         }
+
+        # headers = {
+        #     'Origin': self.config["urls"]["luxmed_base_url"],
+        #     'Content-Type': 'application/x-www-form-urlencoded',
+        #     'x-api-client-identifier': 'Android',
+        #     'Accept': 'application/json, text/plain, */*',
+        #     'Custom-User-Agent': CUSTOM_USER_AGENT,
+        #     'User-Agent': 'okhttp/3.11.0',
+        #     'Accept-Language': 'en;q=1.0, en-PL;q=0.9, pl-PL;q=0.8, ru-PL;q=0.7, uk-PL;q=0.6',
+        #     'Accept-Encoding': 'gzip;q=1.0, compress;q=0.5',
+        #     'Cache-Control': 'no-cache',
+        # }
+
         session.headers.update(headers)
         return session
