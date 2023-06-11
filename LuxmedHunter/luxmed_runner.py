@@ -8,7 +8,7 @@ import pandas as pd
 import schedule
 from pandas import DataFrame as df
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # To run from terminal
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # To run from terminal
 
 from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
 from LuxmedHunter.utils.dir_paths import PROJECT_DIR
@@ -20,7 +20,6 @@ LoggerCustom().info_level()
 
 
 class LuxmedRunner:
-    sys.path.append(PROJECT_DIR)  # for running script from terminal
 
     def __init__(self):
         self.luxmed_client = LuxmedClient()
