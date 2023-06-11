@@ -1,14 +1,12 @@
 import os
 import random
 import shelve
-import sys
+import random
 import time
 
 import pandas as pd
 import schedule
 from pandas import DataFrame as df
-
-# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # To run from terminal
 
 from luxmedhunter.luxmed.luxmed_client import LuxmedClient
 from luxmedhunter.utils.dir_paths import PROJECT_DIR
@@ -27,10 +25,9 @@ class LuxmedRunner:
         self.notifs_db_path = os.path.join(PROJECT_DIR, "luxmedhunter", "db", "sent_notifs.db")
 
     def work(self):
-        delay = self.config["delay"] + random.randint(1, 15)
-        schedule.every(delay).seconds.do(self.check)
 
     def check(self):
+        time.sleep(random.randint(1, 15))
         logger.info("Checking available appointments for desired settings")
         terms = self.luxmed_client.functions.get_available_terms_translated(self.config["config"]["city_name"],
                                                                             self.config["config"]["service_name"],
@@ -86,7 +83,7 @@ if __name__ == "__main__":
     logger.info("LuxmedHunter started...")
     client = LuxmedRunner()
     initial_check = client.check()
-    set_schedule = client.work()
+    schedule.every(60).seconds.do(client.check)
 
     tries = 0
     while tries < 3:
@@ -98,6 +95,6 @@ if __name__ == "__main__":
             time.sleep(180)
             tries += 1
             logger.info(f"Reconnect number: {tries}")
-            client.luxmed_client.initialize()
+            client = LuxmedRunner()
 
     logger.exception("There is an constant error, hopefully you weren't banned, goodnight and good luck:\n{err}")
