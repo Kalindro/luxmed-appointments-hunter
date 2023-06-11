@@ -24,7 +24,7 @@ class LuxmedRunner:
     def __init__(self):
         self.luxmed_client = LuxmedClient()
         self.config = self.luxmed_client.config
-        self.notifs_db_path = os.path.join(PROJECT_DIR, "LuxmedHunter", "db", "sent_notifs.db")
+        self.notifs_db_path = os.path.join(PROJECT_DIR, "luxmedhunter", "db", "sent_notifs.db")
 
     def work(self):
         delay = self.config["delay"] + random.randint(1, 15)

@@ -94,7 +94,7 @@ class LuxmedFunctions:
         return df(ultimate_terms_list)
 
     def _evaluate_db(self):
-        cities_services_db_path = os.path.join(PROJECT_DIR, "LuxmedHunter", "db", "saved_data.db")
+        cities_services_db_path = os.path.join(PROJECT_DIR, "luxmedhunter", "db", "saved_data.db")
         with shelve.open(cities_services_db_path) as db:
             db_last_update_date = db.get("last_update_date")
             if db_last_update_date is None or dt.date.today() > db_last_update_date:
