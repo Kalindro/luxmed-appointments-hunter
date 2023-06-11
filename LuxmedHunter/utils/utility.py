@@ -13,12 +13,17 @@ class LuxmedApiException(Exception):
 
 def handle_response(response: requests.Response):
     response.raise_for_status()
-    try:
-        return response.json()
-    except JSONDecodeError as err:
-        logger.exception(f"Error on json encoding: {err}")
-        logger.error(f"Status code: {response.status_code}")
-        logger.error(f"Response: {response}")
+    if response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json"):
+        try:
+            return response.json()
+        except JSONDecodeError as err:
+            logger.exception(f"Error on json encoding: {err}")
+            logger.error(f"Status code: {response.status_code}")
+            logger.error(f"Response: {response}")
+            logger.error(f"Text: {response.text}")
+            return None
+    else:
+        logger.debug("Empty JSON response")
         return None
 
 
