@@ -23,7 +23,7 @@ def handle_response(response: requests.Response):
             logger.error(f"Text: {response.text}")
             return None
     else:
-        logger.debug("Empty JSON response")
+        logger.warning("Empty JSON response")
         return None
 
 

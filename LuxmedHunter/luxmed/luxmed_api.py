@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class LuxmedApi:
-    """Contains raw requests to Portal Pcjenta, returns not modified"""
+    """Contains raw requests to Portal Pacjenta, returns not modified"""
 
     def __init__(self, luxmed_client: LuxmedClient):
         self.config = luxmed_client.config
