@@ -5,9 +5,6 @@ version = "0.1.0"
 description = ""
 authors = ["Kalindro <25466220+Kalindro@users.noreply.github.com>"]
 readme = "README.md"
-packages = [
-    { include = "LuxmedHunter" }
-]
 
 [tool.poetry.dependencies]
 python = "^3.10"
