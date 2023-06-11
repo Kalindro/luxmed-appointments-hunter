@@ -24,8 +24,6 @@ class LuxmedRunner:
         self.config = self.luxmed_client.config
         self.notifs_db_path = os.path.join(PROJECT_DIR, "luxmedhunter", "db", "sent_notifs.db")
 
-    def work(self):
-
     def check(self):
         time.sleep(random.randint(1, 15))
         logger.info("Checking available appointments for desired settings")
