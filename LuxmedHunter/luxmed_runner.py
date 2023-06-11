@@ -8,6 +8,8 @@ import pandas as pd
 import schedule
 from pandas import DataFrame as df
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # To run from terminal
+
 from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
 from LuxmedHunter.utils.dir_paths import PROJECT_DIR
 from LuxmedHunter.utils.logger_custom import LoggerCustom
