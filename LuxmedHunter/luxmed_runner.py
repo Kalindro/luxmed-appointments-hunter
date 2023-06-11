@@ -1,6 +1,7 @@
 import os
 import random
 import shelve
+import sys
 import time
 
 import pandas as pd
@@ -8,15 +9,16 @@ import schedule
 from pandas import DataFrame as df
 
 from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
+from LuxmedHunter.utils.dir_paths import PROJECT_DIR
 from LuxmedHunter.utils.logger_custom import LoggerCustom
 from LuxmedHunter.utils.logger_custom import default_logger as logger
 from LuxmedHunter.utils.pushover_client import PushoverClient
-from LuxmedHunter.utils.dir_paths import PROJECT_DIR
 
 LoggerCustom().info_level()
 
 
 class LuxmedRunner:
+    sys.path.append(PROJECT_DIR)  # for running script from terminal
 
     def __init__(self):
         self.luxmed_client = LuxmedClient()
