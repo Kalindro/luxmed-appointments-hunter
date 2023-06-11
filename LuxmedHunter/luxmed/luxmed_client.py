@@ -43,6 +43,7 @@ class LuxmedClient:
             "lang": "pl"
         }
         response = self.session.get(self.config["urls"]["luxmed_login_url"], params=params)
+        response = handle_response(response)
         logger.info("Successfully logged in!")
 
     def _get_access_token(self):
