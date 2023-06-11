@@ -12,10 +12,10 @@ ___
 
 #### Requirements:
 - Python 3.10.0 or newer
-- Poetry
+- Poetry (superior virtualenv)
 
-If you don't have poetry, pip install poetry  
-Within the project directory, run` poetry install`  
+If you don't have poetry, pip install poetry
+Within the project directory, run `poetry install`  
 Activate the environment with `poetry shell`
 (Or just create poetry venv with your IDE)
 ___

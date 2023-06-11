@@ -24,7 +24,7 @@ class LuxmedRunner:
         self.notifs_db_path = os.path.join(PROJECT_DIR, "luxmedhunter", "db", "sent_notifs.db")
 
     def check(self):
-        time.sleep(random.randint(1, 15))
+        time.sleep(random.randint(1, 10))
         logger.info("Checking available appointments for desired settings")
         terms = self.luxmed_client.functions.get_available_terms_translated(self.config["config"]["city_name"],
                                                                             self.config["config"]["service_name"],
@@ -90,7 +90,7 @@ if __name__ == "__main__":
             tries = 0
         except Exception as err:
             logger.exception(f"Ups, an error occurred, will wait and try to reconnect:\n{err}")
-            time.sleep(180)
+            time.sleep(60)
             tries += 1
             logger.info(f"Reconnect number: {tries}")
             client = LuxmedRunner()
