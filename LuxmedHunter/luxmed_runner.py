@@ -95,10 +95,10 @@ if __name__ == "__main__":
             schedule.run_pending()
             time.sleep(5)
         except Exception as err:
-            logger.warning(f"Ups, an error occurred: {err}\n Will wait and try to reconnect")
+            logger.exception(f"Ups, an error occurred, will wait and try to reconnect:\n{err}")
             time.sleep(180)
             tries += 1
             logger.info(f"Reconnect number: {tries}")
             client.luxmed_client.initialize()
 
-    logger.error("There is an constant error, hopefully you weren't banned, goodnight and good luck")
+    logger.exception("There is an constant error, hopefully you weren't banned, goodnight and good luck:\n{err}")
