@@ -1,6 +1,6 @@
 [tool.poetry]
 
-name = "luxmedhunter"
+name = "LuxmedHunter"
 version = "0.1.0"
 description = ""
 authors = ["Kalindro <25466220+Kalindro@users.noreply.github.com>"]
