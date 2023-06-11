@@ -10,11 +10,11 @@ from pandas import DataFrame as df
 
 # sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # To run from terminal
 
-from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
-from LuxmedHunter.utils.dir_paths import PROJECT_DIR
-from LuxmedHunter.utils.logger_custom import LoggerCustom
-from LuxmedHunter.utils.logger_custom import default_logger as logger
-from LuxmedHunter.utils.pushover_client import PushoverClient
+from luxmedhunter.luxmed.luxmed_client import LuxmedClient
+from luxmedhunter.utils.dir_paths import PROJECT_DIR
+from luxmedhunter.utils.logger_custom import LoggerCustom
+from luxmedhunter.utils.logger_custom import default_logger as logger
+from luxmedhunter.utils.pushover_client import PushoverClient
 
 LoggerCustom().info_level()
 

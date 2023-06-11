@@ -1,4 +1,4 @@
-from LuxmedHunter.utils.logger_custom import default_logger as logger
+from luxmedhunter.utils.logger_custom import default_logger as logger
 
 try:
     x = 5/0

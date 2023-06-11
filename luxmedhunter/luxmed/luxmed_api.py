@@ -4,11 +4,11 @@ import datetime as dt
 import typing as tp
 from typing import TYPE_CHECKING
 
-from LuxmedHunter.utils.logger_custom import default_logger as logger
-from LuxmedHunter.utils.utility import validate_json_response
+from luxmedhunter.utils.logger_custom import default_logger as logger
+from luxmedhunter.utils.utility import validate_json_response
 
 if TYPE_CHECKING:
-    from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
+    from luxmedhunter.luxmed.luxmed_client import LuxmedClient
 
 
 class LuxmedApi:

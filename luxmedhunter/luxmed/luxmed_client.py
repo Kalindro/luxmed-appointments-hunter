@@ -5,10 +5,10 @@ import uuid
 import requests
 import yaml
 
-from LuxmedHunter.luxmed.luxmed_api import LuxmedApi
-from LuxmedHunter.luxmed.luxmed_functions import LuxmedFunctions
-from LuxmedHunter.utils.dir_paths import PROJECT_DIR
-from LuxmedHunter.utils.logger_custom import default_logger as logger
+from luxmedhunter.luxmed.luxmed_api import LuxmedApi
+from luxmedhunter.luxmed.luxmed_functions import LuxmedFunctions
+from luxmedhunter.utils.dir_paths import PROJECT_DIR
+from luxmedhunter.utils.logger_custom import default_logger as logger
 
 APP_VERSION = "4.19.0"
 CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Android; {str(random.randint(23, 29))}; {str(uuid.uuid4())}"

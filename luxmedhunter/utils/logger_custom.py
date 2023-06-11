@@ -3,7 +3,7 @@ import sys
 
 from loguru import logger
 
-from LuxmedHunter.utils.dir_paths import LOG_DIR
+from luxmedhunter.utils.dir_paths import LOG_DIR
 
 
 class LoggerCustom:

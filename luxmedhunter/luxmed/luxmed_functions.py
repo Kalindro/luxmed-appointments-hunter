@@ -9,11 +9,11 @@ from typing import TYPE_CHECKING
 import pandas as pd
 from pandas import DataFrame as df
 
-from LuxmedHunter.utils.dir_paths import PROJECT_DIR
-from LuxmedHunter.utils.utility import date_string_to_datetime
+from luxmedhunter.utils.dir_paths import PROJECT_DIR
+from luxmedhunter.utils.utility import date_string_to_datetime
 
 if TYPE_CHECKING:
-    from LuxmedHunter.luxmed.luxmed_client import LuxmedClient
+    from luxmedhunter.luxmed.luxmed_client import LuxmedClient
 
 
 class LuxmedFunctions:
