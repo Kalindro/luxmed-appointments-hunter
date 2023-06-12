@@ -14,7 +14,7 @@ def validate_json_response(response: requests.Response):
         raise LuxmedApiException("Code 204, empty response")
     if "application/json" not in response.headers["Content-Type"]:
         print(response.text)
-        raise LuxmedApiException("Something went wrong with response, no content")
+        raise LuxmedApiException("Something went wrong with response, not a JSON")
 
     # try:
     #     return response.json()

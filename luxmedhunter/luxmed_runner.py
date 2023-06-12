@@ -95,4 +95,4 @@ if __name__ == "__main__":
             logger.info(f"Reconnect number: {tries}")
             client = LuxmedRunner()
 
-    logger.exception(f"There is an constant error, hopefully you weren't banned, goodnight and good luck:\n{err}")
+    logger.exception(f"There is an constant error, hopefully you weren't banned, goodnight and good luck")
