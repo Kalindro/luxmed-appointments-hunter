@@ -90,7 +90,7 @@ if __name__ == "__main__":
             tries = 0
         except Exception as err:
             logger.exception(f"Ups, an error occurred, will wait and try to reconnect:\n{err}")
-            time.sleep(60)
+            time.sleep(5)
             tries += 1
             logger.info(f"Reconnect number: {tries}")
             client = LuxmedRunner()
