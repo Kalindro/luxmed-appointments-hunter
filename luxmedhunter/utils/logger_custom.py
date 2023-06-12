@@ -1,6 +1,6 @@
 import os
 import sys
-
+import datetime as dt
 from loguru import logger
 
 from luxmedhunter.utils.dir_paths import LOG_DIR
@@ -50,7 +50,7 @@ class LoggerCustom:
 
     def _basic_config(self):
         logger.remove()
-        logs_path = os.path.join(LOG_DIR, "errors.log")
+        logs_path = os.path.join(LOG_DIR, f"errors {dt.date.today()}.log")
         logger.add(sink=logs_path, level="ERROR", format=self.custom_format)
         return logger
 
