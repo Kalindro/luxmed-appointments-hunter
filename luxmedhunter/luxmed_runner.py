@@ -80,8 +80,6 @@ class LuxmedRunner:
 if __name__ == "__main__":
     logger.info("LuxmedHunter started...")
     client = LuxmedRunner()
-    client._test()
-    x = 5 / 0
     initial_check = client.check()
     schedule.every(60).seconds.do(client.check)
 
