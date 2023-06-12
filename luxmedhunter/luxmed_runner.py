@@ -2,7 +2,7 @@ import os
 import random
 import shelve
 import time
-
+from luxmedhunter.utils.utility import LuxmedApiException
 import pandas as pd
 import schedule
 from pandas import DataFrame as df
@@ -89,9 +89,11 @@ if __name__ == "__main__":
             schedule.run_pending()
             time.sleep(5)
             tries = 0
+        except LuxmedApiException as err:
+            logger.warning("LuxmedApiError, ")
         except Exception as err:
             logger.exception(f"Ups, an error occurred, will wait and try to reconnect:\n{err}")
-            time.sleep(5)
+            time.sleep(7)
             tries += 1
             logger.info(f"Reconnect number: {tries}")
             client = LuxmedRunner()

@@ -17,15 +17,6 @@ def validate_json_response(response: requests.Response):
         # print(f"History: {response.history}")
         raise LuxmedApiException("Something went wrong with response, not a JSON")
 
-    # try:
-    #     return response.json()
-    # except JSONDecodeError as err:
-    #     logger.exception(f"Error on json encoding: {err}")
-    #     logger.error(f"Status code: {response.status_code}")
-    #     logger.error(f"Response: {response}")
-    #     logger.error(f"Text: {response.text}")
-    #     return None
-
 
 def date_string_to_datetime(date_string: str) -> dt.datetime:
     date_datetime = pd.to_datetime(date_string, dayfirst=False)
