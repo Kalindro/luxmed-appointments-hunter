@@ -11,7 +11,7 @@ from luxmedhunter.luxmed.luxmed_client import LuxmedClient
 from luxmedhunter.utils.dir_paths import PROJECT_DIR
 from luxmedhunter.utils.logger_custom import LoggerCustom
 from luxmedhunter.utils.logger_custom import default_logger as logger
-from luxmedhunter.utils.pushover_client import PushoverClient
+from luxmedhunter.utils.pushover_client import PushbulletClient
 
 LoggerCustom().info_level()
 
@@ -61,7 +61,7 @@ class LuxmedRunner:
             db["old_terms"] = terms
 
     def _send_notification(self, terms):
-        pushover_client = PushoverClient(self.config["pushover"]["api_token"], self.config["pushover"]["user_key"])
+        notification_client = PushbulletClient()
         row_messages = []
         for index, row in terms.iterrows():
             date_time_from = row['dateTimeFrom']
@@ -70,12 +70,18 @@ class LuxmedRunner:
             row_messages.append(row_message)
 
         message = "\n".join(row_messages)
-        pushover_client.send_message(message=message, priority=1)
+        notification_client.send_message(message=message, api_token=self.config["pushbullet"]["api_token"])
+
+    def _test(self):
+        message = "TEST"
+        PushbulletClient().send_message(message=message, api_token=self.config["pushbullet"]["api_token"])
 
 
 if __name__ == "__main__":
     logger.info("LuxmedHunter started...")
     client = LuxmedRunner()
+    client._test()
+    x = 5 / 0
     initial_check = client.check()
     schedule.every(60).seconds.do(client.check)
 

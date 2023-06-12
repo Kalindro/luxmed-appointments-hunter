@@ -59,6 +59,8 @@ class LuxmedClient:
 
         self.session.headers.update({"Authorization": response.json()["access_token"]})
 
+        logger.info("Successfully got token!")
+
     def _create_session(self) -> requests.Session:
         session = requests.Session()
         headers = {

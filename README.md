@@ -1,5 +1,5 @@
 ## LuxmedHunter
-Simple tool to notify about available slot in LUX MED medical care service using pushover notifications.
+Simple tool to notify about available slot in LUX MED medical care service using Pushbullet notifications.
 ___
 My twist of Luxmed appointments notifier, inspiration taken from:  
 https://github.com/pawliczka/LuxmedSniper  

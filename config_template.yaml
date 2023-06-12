@@ -12,10 +12,12 @@ pushover:
   api_token:
   user_key:
 
+pushbullet:
+  api_token:
+
 config:
   city_name:
   service_name:
   lookup_days:
   doctor_name:
   clinic_name:
-
