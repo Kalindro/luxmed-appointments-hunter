@@ -39,7 +39,7 @@ class LuxmedRunner:
             self._notifications_handle(terms)
 
     def _notifications_handle(self, terms):
-        unseen_appointments = self._extract_unseen_appointments_only(terms)
+        unseen_appointments = self._extract_unseen_terms(terms)
         if not unseen_appointments.empty:
             self._add_to_database(unseen_appointments)
             self._send_notification(unseen_appointments)
@@ -47,17 +47,14 @@ class LuxmedRunner:
         else:
             logger.success("Notification was already sent")
 
-    def _extract_unseen_appointments_only(self, new_terms) -> pd.DataFrame:
+    def _extract_unseen_terms(self, new_terms) -> pd.DataFrame:
         with shelve.open(self.notifs_db_path) as db:
             old_terms = db.get("old_terms")
 
         if old_terms is None:
             old_terms = df()
 
-        comparison = old_terms.merge(new_terms, indicator=True, how="outer")
-        unseen_rows = comparison[comparison["_merge"] == "right_only"]
-
-        return unseen_rows
+        return new_terms[~new_terms.isin(old_terms)].dropna()
 
     def _add_to_database(self, terms):
         with shelve.open(self.notifs_db_path) as db:
