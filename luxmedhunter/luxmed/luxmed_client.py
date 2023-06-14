@@ -70,7 +70,7 @@ class LuxmedClient:
             'Accept': 'application/json',
             'Custom-User-Agent': CUSTOM_USER_AGENT,
             'User-Agent': 'okhttp/3.11.0',
-            'Accept-Language': 'en;q=1.0, en-PL;q=0.9, pl-PL;q=0.8, ru-PL;q=0.7, uk-PL;q=0.6',
+            'Accept-Language': 'en;q=1.0, en-PL;q=0.9, pl-PL;q=0.8',
             'Accept-Encoding': 'gzip;q=1.0, compress;q=0.5',
         }
 

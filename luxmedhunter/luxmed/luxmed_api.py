@@ -44,6 +44,14 @@ class LuxmedApi:
         return self._base_request("/terms/index", params)
 
     def _base_request(self, url: str, params: tp.Optional[dict] = None) -> list:
-        response = self.session.get(f"{self.config['urls']['luxmed_new_portal_reservation_url']}{url}", params=params)
+        headers = {
+            "Accept": "application/json",
+            'Accept-Language': 'en;q=1.0, en-PL;q=0.9, pl-PL;q=0.8',
+            "host": "portalpacjenta.luxmed.pl",
+            "Content-Type": "application/json",
+            "x-requested-with": "XMLHttpRequest",
+        }
+        response = self.session.get(f"{self.config['urls']['luxmed_new_portal_reservation_url']}{url}", headers=headers,
+                                    params=params)
         validate_json_response(response)
         return response.json()
