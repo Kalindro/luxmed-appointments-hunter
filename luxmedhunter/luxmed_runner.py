@@ -89,10 +89,11 @@ if __name__ == "__main__":
             schedule.run_pending()
             time.sleep(5)
             tries = 0
-        except LuxmedApiException as err:
-            logger.warning("LuxmedApiError, ")
         except Exception as err:
-            logger.exception(f"Ups, an error occurred, will wait and try to reconnect:\n{err}")
+            if isinstance(err, LuxmedApiException):
+                logger.warning("LuxmedApiError, will wait and try to reconnect")
+            else:
+                logger.exception(f"Error, will wait and try to reconnect:\n{err}")
             time.sleep(7)
             tries += 1
             logger.info(f"Reconnect number: {tries}")

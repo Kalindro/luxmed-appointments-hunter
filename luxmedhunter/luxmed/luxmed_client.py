@@ -24,15 +24,15 @@ class LuxmedClient:
         self.api = LuxmedApi(self)
         self.functions = LuxmedFunctions(self)
 
-    @staticmethod
-    def _load_config():
-        with open(os.path.join(PROJECT_DIR, "config.yaml"), "r", encoding="utf8") as file:
-            return yaml.safe_load(file)
-
     def initialize(self):
         self.session = self._create_session()
         self._get_access_token()
         self._login()
+
+    @staticmethod
+    def _load_config():
+        with open(os.path.join(PROJECT_DIR, "config.yaml"), "r", encoding="utf8") as file:
+            return yaml.safe_load(file)
 
     def _login(self):
         params = {"app": "search", "client": 3, "paymentSupported": "true", "lang": "pl"}
