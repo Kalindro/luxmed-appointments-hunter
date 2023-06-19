@@ -84,7 +84,7 @@ if __name__ == "__main__":
     schedule.every(60).seconds.do(client.check)
 
     tries = 0
-    while tries < 100:
+    while tries < 10:
         try:
             schedule.run_pending()
             time.sleep(5)
