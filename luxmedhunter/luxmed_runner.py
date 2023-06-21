@@ -22,7 +22,6 @@ load_dotenv()
 class LuxmedRunner:
 
     def __init__(self):
-        print(os.environ)
         self.luxmed_client = LuxmedClient()
         self.config = self.luxmed_client.config
         self.notifs_db_path = os.path.join(PROJECT_DIR, "luxmedhunter", "db", "sent_notifs.db")

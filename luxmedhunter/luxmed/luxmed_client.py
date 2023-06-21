@@ -16,6 +16,8 @@ CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Androi
 
 class LuxmedClient:
     """Main client to initialize the session with Portal with all the useful requests calls injected"""
+    LUXMED_EMAIL = os.getenv("LUXMED_EMAIL")
+    LUXMED_PASSWORD = os.getenv("LUXMED_PASSWORD")
 
     def __init__(self):
         self.config = self._load_config()
@@ -25,6 +27,9 @@ class LuxmedClient:
         self.functions = LuxmedFunctions(self)
 
     def initialize(self):
+        print(self.LUXMED_EMAIL)
+        if self.LUXMED_EMAIL is None or self.LUXMED_PASSWORD is None:
+            raise Exception("Please provide password and/or email, currently it's None")
         self.session = self._create_session()
         self._get_access_token()
         self._login()
@@ -45,8 +50,8 @@ class LuxmedClient:
 
     def _get_access_token(self):
         authentication_body = {
-            "username": os.getenv("LUXMED_EMAIL"),
-            "password": os.getenv("LUXMED_PASSWORD"),
+            "username": self.LUXMED_EMAIL,
+            "password": self.LUXMED_PASSWORD,
             "grant_type": "password",
             "account_id": str(uuid.uuid4())[:35],
             "client_id": str(uuid.uuid4())
