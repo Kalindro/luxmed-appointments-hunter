@@ -7,3 +7,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - "2137:2137"
+    env_file:
+      - stack.env
