@@ -36,6 +36,7 @@ class LuxmedClient:
 
     @staticmethod
     def _load_config():
+        print(os.listdir(os.path.join(PROJECT_DIR, "config.yaml")))
         with open(os.path.join(PROJECT_DIR, "config.yaml"), "r", encoding="utf8") as file:
             return yaml.safe_load(file)
 
