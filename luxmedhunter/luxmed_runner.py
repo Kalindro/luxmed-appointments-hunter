@@ -6,6 +6,7 @@ from luxmedhunter.utils.utility import LuxmedApiException
 import pandas as pd
 import schedule
 from pandas import DataFrame as df
+from dotenv import load_dotenv
 
 from luxmedhunter.luxmed.luxmed_client import LuxmedClient
 from luxmedhunter.utils.dir_paths import PROJECT_DIR
@@ -14,6 +15,8 @@ from luxmedhunter.utils.logger_custom import default_logger as logger
 from luxmedhunter.utils.pushover_client import PushbulletClient
 
 LoggerCustom().info_level()
+
+load_dotenv()
 
 
 class LuxmedRunner:
@@ -26,11 +29,11 @@ class LuxmedRunner:
     def check(self):
         time.sleep(random.randint(1, 10))
         logger.info("Checking available appointments for desired settings")
-        terms = self.luxmed_client.functions.get_available_terms_translated(self.config["config"]["city_name"],
-                                                                            self.config["config"]["service_name"],
-                                                                            self.config["config"]["lookup_days"],
-                                                                            self.config["config"]["doctor_name"],
-                                                                            self.config["config"]["clinic_name"])
+        terms = self.luxmed_client.functions.get_available_terms_translated(os.getenv("CITY_NAME"),
+                                                                            os.getenv("SERVICE_NAME"),
+                                                                            int(os.getenv("LOOKUP_DAYS")),
+                                                                            os.getenv("DOCTOR_NAME"),
+                                                                            os.getenv("CLINIC_NAME"))
         if terms.empty:
             logger.success("Bad luck, no appointments available for the desired settings")
             return
@@ -54,13 +57,15 @@ class LuxmedRunner:
         if old_terms is None:
             old_terms = df()
 
-        return new_terms[~new_terms.isin(old_terms)].dropna()
+        return new_terms.merge(old_terms, indicator=True, how="left").loc[lambda x: x["_merge"] == "left_only"].drop(
+            "_merge", axis=1)
 
     def _add_to_database(self, terms):
         with shelve.open(self.notifs_db_path) as db:
             db["old_terms"] = terms
 
-    def _send_notification(self, terms):
+    @staticmethod
+    def _send_notification(terms):
         notification_client = PushbulletClient()
         row_messages = []
         for index, row in terms.iterrows():
@@ -70,11 +75,7 @@ class LuxmedRunner:
             row_messages.append(row_message)
 
         message = "\n".join(row_messages)
-        notification_client.send_message(message=message, api_token=self.config["pushbullet"]["api_token"])
-
-    def _test(self):
-        message = "TEST"
-        PushbulletClient().send_message(message=message, api_token=self.config["pushbullet"]["api_token"])
+        notification_client.send_message(message=message, api_token=os.getenv("PUSHBULLET_API_TOKEN"))
 
 
 if __name__ == "__main__":

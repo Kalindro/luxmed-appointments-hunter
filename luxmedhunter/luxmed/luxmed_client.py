@@ -1,7 +1,7 @@
 import os
 import random
 import uuid
-
+import os
 import requests
 import yaml
 
@@ -39,14 +39,14 @@ class LuxmedClient:
         response = self.session.get(self.config["urls"]["luxmed_login_url"], params=params)
 
         if response.status_code != 200:
-            raise Exception("Unexpected response code, cannot log in")
+            raise Exception("Unexpected response code, cannot log in:\n{response.text}")
 
         logger.info("Successfully logged in!")
 
     def _get_access_token(self):
         authentication_body = {
-            "username": self.config["luxmed"]["email"],
-            "password": self.config["luxmed"]["password"],
+            "username": os.getenv("LUXMED_EMAIL"),
+            "password": os.getenv("LUXMED_PASSWORD"),
             "grant_type": "password",
             "account_id": str(uuid.uuid4())[:35],
             "client_id": str(uuid.uuid4())
@@ -55,7 +55,7 @@ class LuxmedClient:
         response = self.session.post(self.config["urls"]["luxmed_token_url"], data=authentication_body)
 
         if response.status_code != 200:
-            raise Exception("Unexpected response code, cannot get the token")
+            raise Exception(f"Unexpected response code, cannot get the token:\n{response.text}")
 
         self.session.headers.update({"Authorization": response.json()["access_token"]})
 
