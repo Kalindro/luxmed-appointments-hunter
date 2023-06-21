@@ -1,0 +1,5 @@
+urls:
+  luxmed_base_url: "https://portalpacjenta.luxmed.pl"
+  luxmed_token_url: "https://portalpacjenta.luxmed.pl/PatientPortalMobileAPI/api/token"
+  luxmed_login_url: "https://portalpacjenta.luxmed.pl/PatientPortal/Account/LogInToApp"
+  luxmed_new_portal_reservation_url: "https://portalpacjenta.luxmed.pl/PatientPortal/NewPortal"
