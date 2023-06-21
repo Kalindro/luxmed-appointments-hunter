@@ -41,7 +41,7 @@ class LuxmedRunner:
             logger.success(f"Success, found below appointments:\n{terms.to_string()}")
             self._notifications_handle(terms)
 
-    def _notifications_handle(self, terms):
+    def _notifications_handle(self, terms: pd.DataFrame):
         unseen_appointments = self._extract_unseen_terms(terms)
         if not unseen_appointments.empty:
             self._add_to_database(unseen_appointments)
@@ -50,7 +50,7 @@ class LuxmedRunner:
         else:
             logger.success("Notification was already sent")
 
-    def _extract_unseen_terms(self, new_terms) -> pd.DataFrame:
+    def _extract_unseen_terms(self, new_terms: pd.DataFrame) -> pd.DataFrame:
         with shelve.open(self.notifs_db_path) as db:
             old_terms = db.get("old_terms")
 
@@ -60,12 +60,12 @@ class LuxmedRunner:
         return new_terms.merge(old_terms, indicator=True, how="left").loc[lambda x: x["_merge"] == "left_only"].drop(
             "_merge", axis=1)
 
-    def _add_to_database(self, terms):
+    def _add_to_database(self, terms: pd.DataFrame):
         with shelve.open(self.notifs_db_path) as db:
             db["old_terms"] = terms
 
     @staticmethod
-    def _send_notification(terms):
+    def _send_notification(terms: pd.DataFrame):
         notification_client = PushbulletClient()
         row_messages = []
         for index, row in terms.iterrows():
