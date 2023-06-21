@@ -4,7 +4,7 @@ import uuid
 import os
 import requests
 import yaml
-
+from dotenv import load_dotenv
 from luxmedhunter.luxmed.luxmed_api import LuxmedApi
 from luxmedhunter.luxmed.luxmed_functions import LuxmedFunctions
 from luxmedhunter.utils.dir_paths import PROJECT_DIR
@@ -12,6 +12,8 @@ from luxmedhunter.utils.logger_custom import default_logger as logger
 
 APP_VERSION = "4.19.0"
 CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Android; {str(random.randint(23, 29))}; {str(uuid.uuid4())}"
+
+load_dotenv()
 
 
 class LuxmedClient:
@@ -35,7 +37,6 @@ class LuxmedClient:
 
     @staticmethod
     def _load_config():
-        logger.info(os.listdir(os.path.join(PROJECT_DIR)))
         with open(os.path.join(PROJECT_DIR, "config.yaml"), "r", encoding="utf8") as file:
             return yaml.safe_load(file)
 

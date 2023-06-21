@@ -16,8 +16,6 @@ from luxmedhunter.utils.pushover_client import PushbulletClient
 
 LoggerCustom().info_level()
 
-load_dotenv()
-
 
 class LuxmedRunner:
 

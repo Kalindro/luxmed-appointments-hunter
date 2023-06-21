@@ -20,7 +20,7 @@ ___
 If you don't have poetry, `pip install poetry`, within the project directory run `poetry install`,
 activate the environment with `poetry shell` (Or just create poetry venv with your IDE).
 ___
-To use it, create `config.yaml` based on the `config_template.yaml` with your details and run the `luxmed_runner`.  
+To use it, create `.env` file based on the `.env.template` with your details and run the `luxmed_runner`.  
 You shall use polish letters/alphabet for names, capitalization doesn't matter. The name of service, city,
 doctor should be a string, as visible in the phone app. To help, the bot saves list of cities and services to
 text files on the first run. `doctor_name` and `clinic_name` are optional - to dial in the search
