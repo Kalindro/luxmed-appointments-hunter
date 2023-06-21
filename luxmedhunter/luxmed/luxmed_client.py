@@ -27,7 +27,6 @@ class LuxmedClient:
         self.functions = LuxmedFunctions(self)
 
     def initialize(self):
-        print(self.LUXMED_EMAIL)
         if self.LUXMED_EMAIL is None or self.LUXMED_PASSWORD is None:
             raise Exception("Please provide password and/or email, currently it's None")
         self.session = self._create_session()
@@ -36,7 +35,7 @@ class LuxmedClient:
 
     @staticmethod
     def _load_config():
-        print(os.listdir(os.path.join(PROJECT_DIR, "config.yaml")))
+        logger.info(os.listdir(os.path.join(PROJECT_DIR, "config.yaml")))
         with open(os.path.join(PROJECT_DIR, "config.yaml"), "r", encoding="utf8") as file:
             return yaml.safe_load(file)
 
