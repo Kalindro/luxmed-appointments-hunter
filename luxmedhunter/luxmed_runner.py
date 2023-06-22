@@ -11,7 +11,7 @@ from luxmedhunter.luxmed.luxmed_client import LuxmedClient
 from luxmedhunter.utils.dir_paths import PROJECT_DIR
 from luxmedhunter.utils.logger_custom import LoggerCustom, default_logger as logger
 from luxmedhunter.utils.pushover_client import PushbulletClient
-from luxmedhunter.utils.utility import LuxmedApiException
+from luxmedhunter.utils.utility import LuxmedTechnicalException
 
 LoggerCustom().info_level()
 
@@ -76,25 +76,33 @@ class LuxmedRunner:
 
 
 if __name__ == "__main__":
+    def start_schedule():
+        client = LuxmedRunner()
+        client.check()  # Initial check
+        schedule.every(60).seconds.do(client.check)
+
+
     logger.info("LuxmedHunter started...")
-    client = LuxmedRunner()
-    initial_check = client.check()
-    schedule.every(60).seconds.do(client.check)
 
     tries = 0
     while tries < 10:
         try:
-            schedule.run_pending()
-            time.sleep(5)
-            tries = 0
+            if schedule.get_jobs():
+                schedule.run_pending()
+                time.sleep(5)
+                tries = 0
+            else:
+                start_schedule()
         except Exception as err:
-            if isinstance(err, LuxmedApiException):
-                logger.warning("LuxmedApiError, will wait and try to reconnect")
+            if isinstance(err, LuxmedTechnicalException):
+                logger.warning(f"Error: {err}, sleeping for longer")
+                time.sleep(900)
+                tries = 0
             else:
                 logger.exception(f"Error, will wait and try to reconnect:\n{err}")
-            time.sleep(7)
-            tries += 1
-            logger.info(f"Reconnect number: {tries}")
-            client = LuxmedRunner()
+                time.sleep(60)
+                tries += 1
+                logger.info(f"Reconnect number: {tries}")
+                schedule.clear()
 
     logger.exception(f"There is an constant error, hopefully you weren't banned, goodnight and good luck")
