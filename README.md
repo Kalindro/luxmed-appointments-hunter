@@ -16,6 +16,7 @@ ___
 
 - Python 3.10.0 or newer
 - Poetry (superior virtualenv)
+- Pushbullet token (phone app, browser extension available)
 
 If you don't have poetry, `pip install poetry`, within the project directory run `poetry install`,
 activate the environment with `poetry shell` (Or just create poetry venv with your IDE).
@@ -26,9 +27,11 @@ doctor should be a string, as visible in the phone app. To help, the bot saves l
 text files on the first run. `doctor_name` and `clinic_name` are optional - to dial in the search
 (they can be left empty).
 ___
-
-Please be advised that running too many queries against LuxMed API may result in locking your LuxMed account.
-Breaching the 'fair use policy' for the first time locks the account temporarily for 1 day.
-Breaching it again locks it indefinitely and manual intervention with "Patient Portal Support"
-is required to unlock it.
+You can also run it as docker container where the environmental variables should be provided, the same that
+can be passed here in `.env` file.
+___
+Please be advised that running too many queries against LuxMed API may
+result in locking your LuxMed account. Breaching the 'fair use policy' for the first time locks the account
+temporarily for 1 day. Breaching it again locks it indefinitely and manual intervention with
+"Patient Portal Support" is required to unlock it.
 
