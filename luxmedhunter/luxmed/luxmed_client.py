@@ -1,10 +1,11 @@
 import os
 import random
 import uuid
-import os
+
 import requests
 import yaml
 from dotenv import load_dotenv
+
 from luxmedhunter.luxmed.luxmed_api import LuxmedApi
 from luxmedhunter.luxmed.luxmed_functions import LuxmedFunctions
 from luxmedhunter.utils.dir_paths import PROJECT_DIR

@@ -2,17 +2,16 @@ import os
 import random
 import shelve
 import time
-from luxmedhunter.utils.utility import LuxmedApiException
+
 import pandas as pd
 import schedule
 from pandas import DataFrame as df
-from dotenv import load_dotenv
 
 from luxmedhunter.luxmed.luxmed_client import LuxmedClient
 from luxmedhunter.utils.dir_paths import PROJECT_DIR
-from luxmedhunter.utils.logger_custom import LoggerCustom
-from luxmedhunter.utils.logger_custom import default_logger as logger
+from luxmedhunter.utils.logger_custom import LoggerCustom, default_logger as logger
 from luxmedhunter.utils.pushover_client import PushbulletClient
+from luxmedhunter.utils.utility import LuxmedApiException
 
 LoggerCustom().info_level()
 
