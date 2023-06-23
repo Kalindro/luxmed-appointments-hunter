@@ -12,9 +12,14 @@ class LuxmedTechnicalException(Exception):
     pass
 
 
-def validate_json_response(response: requests.Response):
+def validate_regular_response(response: requests.Response):
     if response.status_code == 503:
         raise LuxmedTechnicalException("Code 503, Luxmed servers maintenance")
+    response.raise_for_status()
+
+
+def validate_json_response(response: requests.Response):
+    validate_regular_response(response)
     if response.status_code == 204:
         raise LuxmedApiException("Code 204, empty response")
     if "application/json" not in response.headers["Content-Type"]:

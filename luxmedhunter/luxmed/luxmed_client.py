@@ -10,7 +10,7 @@ from luxmedhunter.luxmed.luxmed_api import LuxmedApi
 from luxmedhunter.luxmed.luxmed_functions import LuxmedFunctions
 from luxmedhunter.utils.dir_paths import PROJECT_DIR
 from luxmedhunter.utils.logger_custom import default_logger as logger
-from luxmedhunter.utils.utility import validate_json_response
+from luxmedhunter.utils.utility import validate_regular_response
 
 APP_VERSION = "4.19.0"
 CUSTOM_USER_AGENT = f"Patient Portal; {APP_VERSION}; {str(uuid.uuid4())}; Android; {str(random.randint(23, 29))}; {str(uuid.uuid4())}"
@@ -46,7 +46,7 @@ class LuxmedClient:
         params = {"app": "search", "client": 3, "paymentSupported": "true", "lang": "pl"}
         response = self.session.get(self.config["urls"]["luxmed_login_url"], params=params)
 
-        validate_json_response(response)
+        validate_regular_response(response)
 
         logger.info("Successfully logged in!")
 
@@ -61,7 +61,7 @@ class LuxmedClient:
 
         response = self.session.post(self.config["urls"]["luxmed_token_url"], data=authentication_body)
 
-        validate_json_response(response)
+        validate_regular_response(response)
 
         self.session.headers.update({"Authorization": response.json()["access_token"]})
 
