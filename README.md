@@ -32,7 +32,7 @@ can be passed here in `.env` file. There is also `docker-compose` available for 
 with the help of tools like Portainer.
 ___
 Please be advised that running too many queries against LuxMed API may result in locking your LuxMed account.
-Breaching the 'fair use policy' for the first time locks the account temporarily for 1 day. Breaching i
+Breaching the "fair use policy" for the first time locks the account temporarily for 1 day. Breaching it
 again locks it indefinitely and manual intervention with "Patient Portal Support" is required to unlock it.
 There are safeguards in the script, nonetheless a friendly reminder.
 
