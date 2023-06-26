@@ -54,8 +54,7 @@ class LuxmedRunner:
             return new_terms
         else:
             return new_terms.merge(old_terms, indicator=True, how="left").loc[
-                lambda x: x["_merge"] == "left_only"].drop(
-                "_merge", axis=1)
+                lambda x: x["_merge"] == "left_only"].drop("_merge", axis=1)
 
     def _add_to_database(self, terms: pd.DataFrame):
         with shelve.open(self.notifs_db_path) as db:
@@ -72,7 +71,7 @@ class LuxmedRunner:
             row_messages.append(row_message)
 
         message = "\n".join(row_messages)
-        notification_client.send_message(message=message, api_token=os.getenv("PUSHBULLET_API_TOKEN"))
+        notification_client.send_message(os.getenv("PUSHBULLET_API_TOKEN"), message)
 
 
 if __name__ == "__main__":
@@ -105,4 +104,7 @@ if __name__ == "__main__":
 
             schedule.clear()
 
-    logger.exception(f"There is an constant error, hopefully you weren't banned, goodnight and good luck")
+    logger.exception(f"There is an constant error, hopefully you weren't banned, goodnight and good luck,"
+                     f" sent shutdown notification to Pushbullet")
+    message = "LuxmedHunter app has shut down, there were constant errors!"
+    PushbulletClient().send_message(message, os.getenv("PUSHBULLET_API_TOKEN"))
