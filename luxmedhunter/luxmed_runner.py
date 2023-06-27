@@ -67,7 +67,7 @@ class LuxmedRunner:
         for index, row in terms.iterrows():
             date_time_from = row['dateTimeFrom']
             doctor_name = row['doctor_name']
-            row_message = f"Hurry! New appointment: {date_time_from} - {doctor_name}"
+            row_message = f"New appoint: {date_time_from} - {doctor_name}"
             row_messages.append(row_message)
 
         message = "\n".join(row_messages)
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     logger.exception(f"There is an constant error, hopefully you weren't banned, goodnight and good luck,"
                      f" sent shutdown notification to Pushbullet")
     message = "LuxmedHunter app has shut down, there were constant errors!"
-    PushbulletClient().send_message(message, os.getenv("PUSHBULLET_API_TOKEN"))
+    PushbulletClient().send_message(os.getenv("PUSHBULLET_API_TOKEN"), message)

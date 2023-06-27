@@ -63,6 +63,9 @@ class LuxmedFunctions:
         service_id = services_df.loc[services_df["name"].str.upper() == service_name.upper(), "id"].values[0]
         terms = self._get_available_terms(city_id, service_id, lookup_days)
 
+        if not terms.empty:
+            terms = terms.loc[(terms["day"] <= (dt.date.today() + dt.timedelta(days=lookup_days)))]
+
         if doctor_name and not terms.empty:
             doctors_df = self.get_doctors(city_id, service_id)
             doctor_id = doctors_df.loc[doctors_df["name"].str.upper() == doctor_name.upper(), "id"].values[0]
@@ -88,7 +91,7 @@ class LuxmedFunctions:
                 "doctorId": term["doctor"]["id"],
                 "clinicId": term["clinicId"],
                 "serviceId": term["serviceId"],
-                "dateTimeFrom": date_string_to_datetime(term["dateTimeFrom"])
+                "dateTimeFrom": date_string_to_datetime(term["dateTimeFrom"]).replace(tzinfo=None)
             }
             ultimate_terms_list.append(mlem)
         return df(ultimate_terms_list)
@@ -107,5 +110,4 @@ class LuxmedFunctions:
                 db["last_update_date"] = dt.date.today()
             cities_df = db["cities_df"]
             services_df = db["services_df"]
-
         return cities_df, services_df

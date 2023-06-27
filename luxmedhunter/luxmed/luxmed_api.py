@@ -34,7 +34,6 @@ class LuxmedApi:
         logger.info("Getting terms for city and service from the Luxmed API...")
         date_from = dt.date.today().strftime("%Y-%m-%d")
         date_to = (dt.date.today() + dt.timedelta(days=lookup_days))
-
         params = {
             "cityId": city_id,
             "serviceVariantId": service_id,
