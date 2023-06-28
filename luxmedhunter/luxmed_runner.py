@@ -79,7 +79,7 @@ if __name__ == "__main__":
         logger.info("Starting fresh schedule...")
         client = LuxmedRunner()
         client.check()  # Initial check
-        schedule.every(60).seconds.do(client.check)
+        schedule.every(30).seconds.do(client.check)
 
 
     tries = 0
