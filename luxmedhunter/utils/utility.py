@@ -12,9 +12,15 @@ class LuxmedTechnicalException(Exception):
     pass
 
 
+class LuxmedUnauthorizedException(Exception):
+    pass
+
+
 def validate_regular_response(response: requests.Response):
     if response.status_code == 503:
         raise LuxmedTechnicalException("Code 503, Luxmed servers maintenance")
+    if response.status_code == 401:
+        raise LuxmedUnauthorizedException("Unauthorized for url")
     response.raise_for_status()
 
 

@@ -75,11 +75,14 @@ class LuxmedRunner:
 
 
 if __name__ == "__main__":
+    interval = 20
+
+
     def start_schedule():
         logger.info("Starting fresh schedule...")
         client = LuxmedRunner()
         client.check()  # Initial check
-        schedule.every(30).seconds.do(client.check)
+        schedule.every(interval).seconds.do(client.check)
 
 
     tries = 0
@@ -96,12 +99,16 @@ if __name__ == "__main__":
                 logger.warning(f"Error: {err}, sleeping for longer")
                 time.sleep(900)
                 tries = 0
+            if isinstance(err, LuxmedTechnicalException):
+                logger.warning(f"Error: {err}, will login again")
+                time.sleep(interval)
+                tries += 1
             else:
                 logger.exception(f"Error, will wait and try to reconnect:\n{err}")
-                time.sleep(60)
+                time.sleep(interval)
                 tries += 1
-                logger.info(f"Reconnect number: {tries}")
 
+            logger.info(f"Reconnect number: {tries}")
             schedule.clear()
 
     logger.exception(f"There is an constant error, hopefully you weren't banned, goodnight and good luck,"
