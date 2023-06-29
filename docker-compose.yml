@@ -5,5 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: luxmedhunter:v1.0
     env_file:
       - stack.env

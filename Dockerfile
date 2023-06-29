@@ -1,5 +1,4 @@
 FROM python:3.10
-LABEL version="1.0"
 
 WORKDIR /app
 
