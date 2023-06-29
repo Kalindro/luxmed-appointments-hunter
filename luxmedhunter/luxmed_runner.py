@@ -10,7 +10,7 @@ from luxmedhunter.luxmed.luxmed_client import LuxmedClient
 from luxmedhunter.utils.dir_paths import PROJECT_DIR
 from luxmedhunter.utils.logger_custom import LoggerCustom, default_logger as logger
 from luxmedhunter.utils.pushover_client import PushbulletClient
-from luxmedhunter.utils.utility import LuxmedTechnicalException
+from luxmedhunter.utils.utility import LuxmedTechnicalException, LuxmedUnauthorizedException
 
 LoggerCustom().info_level()
 
@@ -99,7 +99,7 @@ if __name__ == "__main__":
                 logger.warning(f"Error: {err}, sleeping for longer")
                 time.sleep(900)
                 tries = 0
-            if isinstance(err, LuxmedTechnicalException):
+            if isinstance(err, LuxmedUnauthorizedException):
                 logger.warning(f"Error: {err}, will login again")
                 time.sleep(interval)
                 tries += 1
