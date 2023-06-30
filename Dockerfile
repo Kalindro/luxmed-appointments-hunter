@@ -1,5 +1,3 @@
-LABEL version="1.1.0"
-
 FROM python:3.10
 
 WORKDIR /app
@@ -12,5 +10,7 @@ RUN pip install poetry
 RUN poetry config virtualenvs.create false && poetry install --no-dev
 
 COPY . /app
+
+LABEL version="1.1.0"
 
 ENTRYPOINT ["poetry", "run", "python", "luxmedhunter/luxmed_runner.py"]
