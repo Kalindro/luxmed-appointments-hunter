@@ -4,4 +4,4 @@ services:
   app:
     image: ghcr.io/kalindro/luxmedhunter:main
     env_file:
-      - stack.env
+      - .env  # For Portainer sake

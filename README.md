@@ -21,7 +21,8 @@ doctor should be a string, exactly as they are visible in the phone app. To help
 cities and services to text files on the first run. `doctor_name` and `clinic_name` are optional - 
 to dial in the search (they can be left empty).
 
-### Installation
+### Installation  
+
 
 #### Python requirements:
 
@@ -31,11 +32,10 @@ to dial in the search (they can be left empty).
 
 If you don't have poetry, you can create poetry venv base on `.lock` and `.toml` with your IDE, or going the raw
 method: `pip install poetry`, within the project directory run `poetry install`, activate the environment with
-`poetry shell`.
+`poetry shell`. Create `.env` file based on the `.env.template` with your details and run the `luxmed_runner`.
 ___
-To use it, create `.env` file based on the `.env.template` with your details and run the `luxmed_runner`.
 
-### Docker requirements:
+#### Docker requirements:
 
 - Docker / Docker-compose
 

@@ -90,7 +90,6 @@ if __name__ == "__main__":
     tries = 0
     while tries < 5:
         try:
-            x = 5/0
             if schedule.get_jobs():
                 schedule.run_pending()
                 time.sleep(5)
