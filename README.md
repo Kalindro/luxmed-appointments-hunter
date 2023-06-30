@@ -49,4 +49,7 @@ Please be advised that running too many queries against LuxMed API may result in
 Breaching the "fair use policy" for the first time locks the account temporarily for 1 day. Breaching it
 again locks it indefinitely and manual intervention with "Patient Portal Support" is required to unlock it.
 There are safeguards in the script, nonetheless a friendly reminder.
+___
+If you are surprised with amount of commits for such a small project, I'm using this project to test a lot of
+server and docker related things in my home lab
 

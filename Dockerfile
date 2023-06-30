@@ -1,3 +1,5 @@
+LABEL version="1.1.0"
+
 FROM python:3.10
 
 WORKDIR /app
