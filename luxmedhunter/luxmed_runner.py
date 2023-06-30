@@ -2,6 +2,7 @@ import os
 import random
 import shelve
 import time
+from dotenv import load_dotenv
 
 import pandas as pd
 import schedule
@@ -12,6 +13,7 @@ from luxmedhunter.utils.logger_custom import LoggerCustom, default_logger as log
 from luxmedhunter.utils.pushover_client import PushbulletClient
 from luxmedhunter.utils.utility import LuxmedTechnicalException, LuxmedUnauthorizedException
 
+load_dotenv()
 LoggerCustom().info_level()
 
 
@@ -88,6 +90,7 @@ if __name__ == "__main__":
     tries = 0
     while tries < 5:
         try:
+            x = 5/0
             if schedule.get_jobs():
                 schedule.run_pending()
                 time.sleep(5)
@@ -97,9 +100,9 @@ if __name__ == "__main__":
         except Exception as err:
             if isinstance(err, LuxmedTechnicalException):
                 logger.warning(f"Error: {err}, sleeping for longer")
-                time.sleep(900)
+                time.sleep(1800)
                 tries = 0
-            if isinstance(err, LuxmedUnauthorizedException):
+            elif isinstance(err, LuxmedUnauthorizedException):
                 logger.warning(f"Error: {err}, will login again")
                 time.sleep(interval)
                 tries += 1
@@ -109,6 +112,11 @@ if __name__ == "__main__":
                 tries += 1
 
             logger.info(f"Reconnect number: {tries}")
+
+            if tries == 4:
+                logger.info("Last try, sleeping longer")
+                time.sleep(1800)
+
             schedule.clear()
 
     logger.exception(f"There is an constant error, hopefully you weren't banned, goodnight and good luck,"
