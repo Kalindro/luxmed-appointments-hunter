@@ -14,15 +14,14 @@ ___
 - Docker
 - Docker-compose
 ___
-
 ### Config
 You shall use polish letters/alphabet for names, capitalization doesn't matter. The name of service, city,
 doctor should be a string, exactly as they are visible in the phone app. To help, the bot saves list of
 cities and services to text files on the first run. `doctor_name` and `clinic_name` are optional - 
 to dial in the search (they can be left empty).
+___
 
-### Installation  
-
+### Installation
 
 #### Python requirements:
 
@@ -51,5 +50,5 @@ again locks it indefinitely and manual intervention with "Patient Portal Support
 There are safeguards in the script, nonetheless a friendly reminder.
 ___
 If you are surprised with amount of commits for such a small project, I'm using this project to test a lot of
-server and docker related things in my home lab
+server and docker related things in my home lab, apologies
 
