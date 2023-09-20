@@ -38,6 +38,17 @@ ___
 
 - Docker / Docker-compose
 
+File: [docker-compose.yml](docker-compose.yml)
+```yaml
+version: "3.1"
+
+services:
+  app:
+    image: ghcr.io/kalindro/luxmedhunter:latest
+    env_file:
+      - stack.env  # For Portainer sake
+```
+
 As this can be run as docker container, image of this repo is automatically created with new pushes and uploaded to
 GHCR, please refer to my packages:
 https://github.com/Kalindro/luxmedhunter/pkgs/container/luxmedhunter  

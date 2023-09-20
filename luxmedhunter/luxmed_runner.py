@@ -25,7 +25,7 @@ class LuxmedRunner:
         self.notifs_db_path = os.path.join(PROJECT_DIR, "luxmedhunter", "db", "sent_notifs.db")
 
     def check(self):
-        time.sleep(random.randint(1, 10))
+        time.sleep(random.randint(2, 10))
         logger.info("Checking available appointments for desired settings")
         available_terms = self.luxmed_client.functions.get_available_terms_translated(os.getenv("CITY_NAME"),
                                                                                       os.getenv("SERVICE_NAME"),
@@ -83,7 +83,7 @@ class LuxmedRunner:
 
 
 if __name__ == "__main__":
-    interval = 20
+    interval = 25
 
 
     def start_schedule():
@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
 
     tries = 0
-    while tries < 5:
+    while tries <= 4:
         try:
             if schedule.get_jobs():
                 schedule.run_pending()
